@@ -1,0 +1,403 @@
+/* Vehicle View Page Styles */
+
+.vehicle-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-purple);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--dark-purple);
+}
+
+.vehicle-detail-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+/* Images Section */
+.vehicle-images-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.main-image-wrapper {
+    width: 100%;
+    height: 400px;
+    background: var(--gray-light);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+    color: #ddd;
+}
+
+.thumbnail-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+}
+
+.thumbnail-wrapper {
+    width: 100%;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--gray-light);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-wrapper:hover {
+    border-color: var(--primary-purple);
+}
+
+.vehicle-description-section {
+    margin-top: 8px;
+    padding: 20px;
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.description-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gray-dark);
+    margin-bottom: 10px;
+}
+
+.description-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+/* Booking Card */
+.booking-card {
+    background: white;
+    border: 2px solid var(--primary-purple);
+    border-radius: 16px;
+    padding: 32px;
+    height: fit-content;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-purple);
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Vehicle Info Header */
+.vehicle-info-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.vehicle-name-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vehicle-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+.vehicle-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #999;
+}
+
+.detail-label {
+    text-transform: capitalize;
+}
+
+.detail-separator {
+    color: #ddd;
+}
+
+/* Daily Rate Section */
+.daily-rate-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rate-label {
+    font-size: 14px;
+    color: #999;
+    font-weight: 500;
+}
+
+.rate-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-purple);
+}
+
+/* Booking Form */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    padding-right: 40px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--gray-dark);
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--dark-purple);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+}
+
+.date-input-wrapper svg {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: var(--primary-purple);
+}
+
+/* Downpayment and Total Sections */
+.downpayment-section,
+.total-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.downpayment-label,
+.total-label {
+    font-size: 14px;
+    color: #999;
+    font-weight: 500;
+}
+
+.downpayment-percentage {
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.downpayment-amount,
+.total-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-purple);
+}
+
+.total-amount {
+    font-size: 20px;
+}
+
+/* Book Now Button */
+.book-now-btn {
+    padding: 14px 24px;
+    background: var(--primary-purple);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+}
+
+.book-now-btn:hover {
+    background: var(--dark-purple);
+}
+
+.book-now-btn:active {
+    transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .vehicle-detail-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .main-image-wrapper {
+        height: 350px;
+    }
+
+    .booking-card {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .vehicle-detail-container {
+        padding: 20px 16px;
+    }
+
+    .vehicle-detail-content {
+        gap: 30px;
+    }
+
+    .main-image-wrapper {
+        height: 300px;
+    }
+
+    .booking-card {
+        padding: 24px;
+    }
+
+    .card-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .vehicle-name {
+        font-size: 18px;
+    }
+
+    .rate-amount {
+        font-size: 18px;
+    }
+
+    .book-now-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .vehicle-detail-container {
+        padding: 16px;
+    }
+
+    .vehicle-detail-content {
+        gap: 24px;
+    }
+
+    .main-image-wrapper {
+        height: 250px;
+    }
+
+    .thumbnail-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 8px;
+    }
+
+    .thumbnail-wrapper {
+        height: 60px;
+    }
+
+    .booking-card {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .vehicle-name {
+        font-size: 16px;
+    }
+
+    .rate-amount,
+    .total-amount {
+        font-size: 16px;
+    }
+
+    .downpayment-amount {
+        font-size: 16px;
+    }
+
+    .form-input {
+        padding: 10px 12px;
+        padding-right: 36px;
+        font-size: 13px;
+    }
+
+    .date-input-wrapper svg {
+        width: 18px;
+        height: 18px;
+        right: 10px;
+    }
+}

@@ -1,0 +1,332 @@
+/* Registration Form Styles */
+
+.registration-form {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.center-container {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.center-container img {
+    width: 160px;
+    height: auto;
+    margin-bottom: 8px;
+    object-fit: contain;
+}
+
+.center-container p {
+    font-size: 13px;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4b0082;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
+/* Form Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b0082;
+    margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #4b0082;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="date"]:focus {
+    border-color: #7b2fbe;
+    box-shadow: 0 0 0 3px rgba(123, 47, 190, 0.1);
+}
+
+.password-hint {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* File Input Styling */
+.file-input-wrapper {
+    position: relative;
+    margin-top: 8px;
+}
+
+.file-input-wrapper input[type="file"] {
+    display: none;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border: 2px dashed #4b0082;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f9f7ff;
+    color: #4b0082;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.file-input-label:hover {
+    border-color: #7b2fbe;
+    background: #f3f0ff;
+}
+
+.file-input-label svg {
+    width: 20px;
+    height: 20px;
+    stroke: #4b0082;
+}
+
+.file-name {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 8px;
+    margin-left: 4px;
+}
+
+/* Image Preview */
+.image-preview {
+    display: none;
+    margin-top: 12px;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 1px solid #d4c5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Terms & Conditions */
+.terms-section {
+    margin-bottom: 20px;
+    margin-top: 24px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4b0082;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #7b2fbe;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+    font-family: "Segoe UI", sans-serif;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.88;
+}
+
+button[type="submit"]:active {
+    opacity: 0.8;
+}
+
+.registration-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #888;
+}
+
+.registration-footer a {
+    color: #7b2fbe;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.registration-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .registration-form {
+        padding: 32px 20px;
+        margin: 20px;
+        max-width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .center-container img {
+        width: 140px;
+    }
+
+    .section-title {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .form-group input {
+        padding: 9px 12px;
+        font-size: 13px;
+    }
+
+    .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+
+    button[type="submit"] {
+        padding: 11px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-form {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .center-container img {
+        width: 120px;
+    }
+
+    .center-container p {
+        font-size: 12px;
+    }
+
+    .form-section {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+    }
+
+    .section-title {
+        font-size: 11px;
+    }
+
+    .form-row {
+        gap: 10px;
+    }
+
+    .file-input-label {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .file-input-label svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .checkbox-label {
+        font-size: 12px;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Scrollbar Styling */
+.registration-form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.registration-form::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.registration-form::-webkit-scrollbar-thumb {
+    background: #d4c5f9;
+    border-radius: 10px;
+}
+
+.registration-form::-webkit-scrollbar-thumb:hover {
+    background: #b8a8d8;
+}

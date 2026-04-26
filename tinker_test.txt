@@ -1,0 +1,5 @@
+class_exists("App\\Models\\Staff") ? "Staff: OK" : "Staff: FAIL"
+class_exists("App\\Models\\User") ? "User: OK" : "User: FAIL"
+class_exists("App\\Models\\Booking") ? "Booking: OK" : "Booking: FAIL"
+class_exists("App\\Models\\Payment") ? "Payment: OK" : "Payment: FAIL"
+exit
