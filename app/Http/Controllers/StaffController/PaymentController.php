@@ -88,7 +88,7 @@ class PaymentController extends Controller
             // Update payment status
             $payment->update([
                 'status' => 'verified',
-                'verified_by_user_id' => Auth::id(),
+                'verified_by' => Auth::user()->staff->staff_ID,
                 'verified_at' => now()
             ]);
 
@@ -161,7 +161,7 @@ class PaymentController extends Controller
             // Update payment status
             $payment->update([
                 'status' => 'rejected',
-                'verified_by_user_id' => Auth::id(),
+                'verified_by' => Auth::user()->staff->staff_ID,
                 'verified_at' => now()
             ]);
 

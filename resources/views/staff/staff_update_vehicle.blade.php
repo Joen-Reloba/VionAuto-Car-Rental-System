@@ -167,6 +167,67 @@
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('status');
+        const submitBtn = document.querySelector('.btn-submit');
+        const form = document.querySelector('form');
+        const currentStatus = "{{ $vehicle->status }}";
+
+        // Check if vehicle status is not "available"
+        function checkVehicleStatus() {
+            if (currentStatus !== 'available') {
+                // Add warning message
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'status-warning';
+                warningDiv.style.cssText = `
+                    background: #fff3cd;
+                    border: 1px solid #ffc107;
+                    color: #856404;
+                    padding: 12px;
+                    border-radius: 6px;
+                    margin-bottom: 20px;
+                    font-weight: 500;
+                `;
+                warningDiv.innerHTML = `⚠️ <strong>Status Warning:</strong> This vehicle is currently "<strong>${currentStatus}</strong>" and cannot be updated. Only vehicles with "Available" status can be updated.`;
+                
+                // Insert after page title
+                const header = document.querySelector('.page-header');
+                if (header) {
+                    header.parentNode.insertBefore(warningDiv, header.nextSibling);
+                }
+
+                // Disable all form fields
+                const inputs = form.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+
+                // Style the submit button
+                submitBtn.disabled = true;
+                submitBtn.style.cssText = `
+                    background-color: #ccc !important;
+                    color: #999 !important;
+                    cursor: not-allowed !important;
+                    opacity: 0.6;
+                `;
+                submitBtn.title = 'Cannot update vehicle - status is not "Available"';
+
+                return false;
+            }
+            return true;
+        }
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            if (!checkVehicleStatus()) {
+                e.preventDefault();
+                alert('❌ Cannot update vehicle\n\nThis vehicle is currently in use or not available for updates.\n\nCurrent Status: ' + currentStatus);
+                return false;
+            }
+        });
+
+        // Run status check on page load
+        checkVehicleStatus();
+
         const imageInputs = [
             { input: document.getElementById('imageInput1'), preview: document.getElementById('imagePreview1') },
             { input: document.getElementById('imageInput2'), preview: document.getElementById('imagePreview2') },

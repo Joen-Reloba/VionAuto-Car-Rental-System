@@ -63,6 +63,12 @@
                             <label>Rental Period:</label>
                             <span>{{ $booking->rent_start->format('M d, Y') }} - {{ $booking->rent_end->format('M d, Y') }}</span>
                         </div>
+                        @if($booking->returned_at)
+                            <div class="detail-row">
+                                <label>Returned Date:</label>
+                                <span>{{ $booking->returned_at->format('M d, Y') }}</span>
+                            </div>
+                        @endif
                         <div class="detail-row">
                             <label>Daily Rate:</label>
                             <span>₱{{ number_format($booking->vehicle->daily_rate, 2) }}</span>
@@ -136,7 +142,7 @@
             </div>
 
             <div class="final-payment-box">
-                <p class="final-label">Final Payment Due</p>
+                <p class="final-label" id="finalPaymentLabel">Downpayment Due</p>
                 <p class="final-amount" id="modalDownpayment">₱0.00</p>
             </div>
 
@@ -156,6 +162,12 @@
                     <button type="button" class="upload-btn" onclick="document.getElementById('receiptInput').click()">Choose File</button>
                     <p class="file-name" id="fileName">No file chosen</p>
                 </div>
+            </div>
+
+            <div class="reference-number-section">
+                <label for="referenceNumberInput" class="reference-label">Gcash Reference Number <span class="required">*</span></label>
+                <input type="text" id="referenceNumberInput" name="reference_number" class="reference-input" placeholder="e.g., 202604271234567" required>
+                <p class="reference-description">Enter the 12-digit reference number from your Gcash receipt</p>
             </div>
 
             <button class="submit-payment-btn" onclick="submitPayment()">Submit Payment</button>
@@ -250,6 +262,7 @@
                     document.getElementById('modalRentalPeriod').textContent = rentalPeriod;
                     document.getElementById('modalTotalAmount').textContent = totalAmount;
                     document.getElementById('modalDownpayment').textContent = downpayment;
+                    document.getElementById('finalPaymentLabel').textContent = 'Downpayment Due';
 
                     // Show modal
                     const modal = document.getElementById('paymentModal');
@@ -315,6 +328,7 @@
                     document.getElementById('modalRentalPeriod').textContent = rentalPeriod;
                     document.getElementById('modalTotalAmount').textContent = totalAmount;
                     document.getElementById('modalDownpayment').textContent = `₱${remaining}`;
+                    document.getElementById('finalPaymentLabel').textContent = 'Remaining Balance';
 
                     // Update modal header to reflect full payment
                     document.querySelector('.modal-header h2').textContent = 'Pay Remaining Balance via Gcash';
@@ -344,6 +358,8 @@
             currentBookingData = null;
             document.querySelector('.modal-header h2').textContent = 'Pay via Gcash';
             document.querySelector('.payment-details-box .detail-item:last-child .detail-value').textContent = 'Downpayment';
+            document.getElementById('finalPaymentLabel').textContent = 'Downpayment Due';
+            document.getElementById('referenceNumberInput').value = '';
         }
 
         // Handle file selection
@@ -413,6 +429,12 @@
                 return;
             }
 
+            const referenceNumber = document.getElementById('referenceNumberInput').value.trim();
+            if (!referenceNumber) {
+                alert('Please enter the Gcash reference number');
+                return;
+            }
+
             // Disable submit button
             const submitBtn = document.querySelector('.submit-payment-btn');
             const originalText = submitBtn.textContent;
@@ -423,6 +445,7 @@
             const formData = new FormData();
             formData.append('booking_id', currentBookingData.bookingId);
             formData.append('receipt', selectedFile);
+            formData.append('reference_number', referenceNumber);
             formData.append('payment_type', currentBookingData.paymentType || 'downpayment');
 
             // Get CSRF token

@@ -34,6 +34,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+    overflow: visible;
 }
 
 .navbar-container {
@@ -116,6 +117,7 @@ body {
     gap: 12px;
     flex-shrink: 0;
     position: relative;
+    overflow: visible;
 }
 
 .profile-circle {
@@ -249,6 +251,47 @@ body {
     white-space: nowrap;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+    flex-shrink: 0;
+}
+
+.hamburger {
+    width: 28px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 3px;
+    background: var(--primary-purple);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
 .logout-btn:hover {
     background: var(--primary-purple);
     color: white;
@@ -260,6 +303,7 @@ body {
     align-items: center;
     position: relative;
     flex-shrink: 0;
+    overflow: visible;
 }
 
 .notifications-icon {
@@ -1107,20 +1151,81 @@ body {
 
 @media (max-width: 768px) {
     .navbar-container {
-        flex-direction: column;
-        gap: 16px;
+        gap: 0;
         padding: 12px 20px;
     }
 
+    .logo {
+        flex: 1;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
         flex-direction: column;
-        gap: 12px;
+        gap: 0;
         width: 100%;
-        text-align: center;
+        padding: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: 16px 20px;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+    }
+
+    .nav-link:last-child {
+        border-bottom: none;
     }
 
     .login-btn {
-        width: 100%;
+        width: auto;
+        padding: 10px 20px;
+        margin-top: 12px;
+    }
+
+    .navbar-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .profile-section {
+        width: auto;
+        justify-content: flex-end;
+        gap: 12px;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .notifications-icon-wrapper {
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .notifications-dropdown {
+        right: 0;
+        left: auto;
+        transform: none;
+        min-width: 280px;
+        max-width: calc(100vw - 20px);
     }
 
     .hero-title {
@@ -1180,30 +1285,35 @@ body {
     }
 
     .profile-section {
-        width: 100%;
-        justify-content: center;
+        width: auto;
+        justify-content: flex-end;
         gap: 8px;
+        flex-shrink: 0;
+        position: relative;
     }
 
     .profile-circle {
         width: 40px;
         height: 40px;
+        flex-shrink: 0;
     }
 
     .username {
         font-size: 13px;
+        white-space: nowrap;
     }
 
     .notifications-icon-wrapper {
-        width: 100%;
-        justify-content: center;
+        position: relative;
+        flex-shrink: 0;
     }
 
     .notifications-dropdown {
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
+        right: 0;
+        left: auto;
+        transform: none;
         min-width: 280px;
+        max-width: calc(100vw - 20px);
     }
 
     .logout-btn {
@@ -1283,15 +1393,35 @@ body {
     .profile-section {
         flex-direction: row;
         gap: 6px;
+        flex-shrink: 0;
     }
 
     .profile-circle {
         width: 36px;
         height: 36px;
+        flex-shrink: 0;
     }
 
     .username {
         display: none;
+    }
+
+    .notifications-icon-wrapper {
+        flex-shrink: 0;
+    }
+
+    .notifications-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 260px;
+        max-width: calc(100vw - 32px);
+    }
+
+    .profile-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 180px;
+        max-width: calc(100vw - 32px);
     }
 
     .logout-btn {
@@ -1329,5 +1459,78 @@ body {
         width: 40px;
         height: 40px;
         font-size: 18px;
+    }
+}
+@media (max-width: 360px) {
+    .navbar {
+        padding: 12px 0;
+    }
+
+    .navbar-container {
+        padding: 8px 12px;
+        gap: 0;
+    }
+
+    .logo-placeholder {
+        width: 100px;
+        height: 40px;
+    }
+
+    .mobile-menu-btn {
+        padding: 6px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-link {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .profile-trigger {
+        gap: 8px;
+    }
+
+    .profile-circle {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .profile-circle img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .notifications-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 240px;
+        max-width: calc(100vw - 20px);
+    }
+
+    .profile-dropdown {
+        right: 0;
+        left: auto;
+        min-width: 160px;
+        max-width: calc(100vw - 20px);
+    }
+
+    .search-bar {
+        padding: 8px;
+        gap: 6px;
+    }
+
+    .search-field {
+        min-width: 120px;
+        padding: 6px 10px;
+    }
+
+    .hero-title {
+        font-size: 20px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
     }
 }

@@ -6,6 +6,15 @@
             <div class="logo-placeholder"><img src="{{asset('assets/logo/vertical-logo.png')}}" alt="VionAuto Logo"></div>
         </div>
 
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" onclick="toggleMobileNavMenu()">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
         <!-- Navigation Links -->
         <div class="nav-links">
             <a href="#home" class="nav-link"><img src="{{asset('assets/icons/Home.png')}}" alt="">Home</a>
@@ -71,3 +80,4 @@
 </nav>
 
 <script src="{{ asset('javascripts/customer_js/notification.js') }}"></script>
+<script src="{{ asset('javascripts/responsive.js') }}"></script>

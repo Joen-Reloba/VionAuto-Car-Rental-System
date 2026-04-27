@@ -147,6 +147,10 @@
                             <span class="detail-value" id="modalDaysRented"></span>
                         </div>
                         <div class="detail-item">
+                            <span class="detail-label">Returned Date</span>
+                            <span class="detail-value" id="modalReturnedDate">-</span>
+                        </div>
+                        <div class="detail-item">
                             <span class="detail-label">Daily Rate</span>
                             <span class="detail-value" id="modalDailyRate"></span>
                         </div>

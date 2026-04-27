@@ -180,17 +180,32 @@ class ManageVehicleController extends Controller
 
     public function destroy(Vehicle $vehicle)
     {
-        // Delete all image files from disk
-        foreach ($vehicle->images as $image) {
-            $imagePath = public_path('assets/images/images-vehicles/' . $image->img_path);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
+        try {
+            // Delete all image files from disk
+            foreach ($vehicle->images as $image) {
+                $imagePath = public_path('assets/images/images-vehicles/' . $image->img_path);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
             }
+            
+            $vehicle->delete();
+            
+            return response()->json(['success' => true, 'message' => 'Vehicle deleted successfully']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle foreign key constraint violation (RESTRICT)
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot delete this vehicle. It has active bookings or payments associated with it.'
+                ], 409);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting vehicle: ' . $e->getMessage()
+            ], 500);
         }
-        
-        $vehicle->delete();
-        
-        return response()->json(['success' => true, 'message' => 'Vehicle deleted successfully']);
     }
 }
 

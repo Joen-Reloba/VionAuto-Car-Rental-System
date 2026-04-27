@@ -83,6 +83,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 booking.rent_end;
             document.getElementById("modalDaysRented").textContent =
                 booking.days_rented + " day(s)";
+
+            // Set returned date if available
+            const returnedDateElement =
+                document.getElementById("modalReturnedDate");
+            if (booking.returned_at) {
+                const parts = booking.returned_at.split("/");
+                const returnedDate = new Date(
+                    parts[2],
+                    parseInt(parts[0]) - 1,
+                    parts[1],
+                );
+                returnedDateElement.textContent =
+                    returnedDate.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    });
+            } else {
+                returnedDateElement.textContent = "-";
+            }
+
             document.getElementById("modalDailyRate").textContent =
                 "₱" + formatCurrency(booking.daily_rate);
             document.getElementById("modalSubtotal").textContent =

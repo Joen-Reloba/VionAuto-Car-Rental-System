@@ -71,9 +71,10 @@ class CustomerPaymentController extends Controller
     public function submitPayment(Request $request)
 {
     $request->validate([
-        'booking_id'   => 'required|exists:bookings,booking_ID',
-        'receipt'      => 'required|image|max:5120',
-        'payment_type' => 'nullable|in:downpayment,final',
+        'booking_id'      => 'required|exists:bookings,booking_ID',
+        'receipt'         => 'required|image|max:5120',
+        'reference_number' => 'required|string|min:10|max:50',
+        'payment_type'    => 'nullable|in:downpayment,final',
     ]);
 
     try {
@@ -119,12 +120,13 @@ class CustomerPaymentController extends Controller
 
         // Create new payment record (don't updateOrCreate — we want separate records)
         $payment = Payment::create([
-            'booking_ID'    => $booking->booking_ID,
-            'payment_type'  => $paymentType,
-            'receipt_image' => $fileName,
-            'amount_paid'   => $amountDue,
-            'status'        => 'pending',
-            'payment_date'  => now(),
+            'booking_ID'      => $booking->booking_ID,
+            'payment_type'    => $paymentType,
+            'reference_number' => $request->input('reference_number'),
+            'receipt_image'   => $fileName,
+            'amount_paid'     => $amountDue,
+            'status'          => 'pending',
+            'payment_date'    => now(),
         ]);
 
         return response()->json([

@@ -96,6 +96,10 @@
                         <span class="info-label">Payment Type</span>
                         <span class="info-value" id="modalPaymentType"></span>
                     </div>
+                    <div class="payment-info-item">
+                        <span class="info-label">Reference Number</span>
+                        <span class="info-value" id="modalPaymentReference"></span>
+                    </div>
                     <div class="payment-info-item amount-item">
                         <span class="info-label">Amount Due</span>
                         <span class="info-value amount-value" id="modalPaymentAmount"></span>

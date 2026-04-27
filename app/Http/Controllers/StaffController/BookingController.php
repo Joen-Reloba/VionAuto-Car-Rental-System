@@ -65,7 +65,7 @@ class BookingController extends Controller
                 'payment_status' => $booking->payment_status,
                 'note' => $booking->note,
                 'returned_at' => $booking->returned_at 
-                ? $booking->returned_at->format('M d, Y h:i A') 
+                ? $booking->returned_at->format('m/d/Y') 
                 : null,
             ];
         })->toArray();

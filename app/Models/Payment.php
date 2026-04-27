@@ -14,7 +14,7 @@ class Payment extends Model
 
     protected $fillable = [
         'booking_ID',
-        'verified_by_user_id',           // changed
+        'verified_by',
         'payment_type',
         'reference_number',
         'receipt_image',
@@ -41,7 +41,7 @@ class Payment extends Model
 
     public function verifiedBy()
     {
-        return $this->belongsTo(Staff::class, 'verified_by_user_id', 'user_ID'); // changed
+        return $this->belongsTo(Staff::class, 'verified_by', 'staff_ID');
     }
 
     // Accessors — all kept as-is

@@ -12,6 +12,15 @@
 <body>
 
     <div class="wrapper"> 
+        <!-- Hamburger Menu Button for Mobile -->
+        <button class="hamburger-btn" onclick="toggleSidebar()">
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
         @include('layouts.admin_sidebar')
 
         <main class="main-content">
@@ -20,5 +29,7 @@
     </div>
 
       @yield('scripts')
+
+    <script src="{{ asset('javascripts/responsive.js') }}"></script>
 </body>
 </html>

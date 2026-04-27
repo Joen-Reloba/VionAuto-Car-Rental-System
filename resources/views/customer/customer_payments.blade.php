@@ -74,7 +74,7 @@
 
                     <div class="payment-actions">
                         @if($payment->receipt_image)
-                            <a href="{{ asset('assets/images/receipts/' . $payment->receipt_image) }}" target="_blank" class="action-btn view-receipt-btn">
+                            <a href="{{ asset('assets/images/images-receipts/' . $payment->receipt_image) }}" target="_blank" class="action-btn view-receipt-btn">
                                 View Receipt
                             </a>
                         @endif

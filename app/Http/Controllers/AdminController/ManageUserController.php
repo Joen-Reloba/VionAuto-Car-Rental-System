@@ -151,13 +151,26 @@ class ManageUserController extends Controller
 
     public function destroy(User $user)
     {
-        // Deleting the user will cascade delete the staff record automatically
-        // because of the onDelete('cascade') on the staffs table
-        $user->delete();
+        try {
+            $user->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User deleted successfully'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'User deleted successfully'
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle foreign key constraint violation (RESTRICT)
+            if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot delete this user. They have active bookings or payments associated with them.'
+                ], 409);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting user: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

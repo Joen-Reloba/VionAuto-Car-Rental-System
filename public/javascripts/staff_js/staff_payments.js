@@ -72,6 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 payment.rent_start + " - " + payment.rent_end;
             document.getElementById("modalPaymentType").textContent =
                 payment.payment_type;
+            document.getElementById("modalPaymentReference").textContent =
+                payment.reference_number || "N/A";
             document.getElementById("modalPaymentAmount").textContent =
                 "₱" + formatCurrency(payment.amount_due);
             document.getElementById("modalReceiptImage").src =

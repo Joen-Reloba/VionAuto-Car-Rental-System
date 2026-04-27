@@ -68,10 +68,10 @@ async function confirmDelete() {
         const data = await response.json();
 
         if (data.success) {
-            alert(data.message);
+            alert("✅ " + data.message);
             location.reload();
         } else {
-            alert("Error: " + (data.message || "Failed to delete user"));
+            alert("❌ " + (data.message || "Failed to delete user"));
         }
     } catch (error) {
         console.error("Error:", error);
