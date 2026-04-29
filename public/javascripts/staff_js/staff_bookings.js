@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const rejectBtn = document.getElementById("rejectBtn");
     const startRentalBtn = document.getElementById("startRentalBtn");
     const returnVehicleBtn = document.getElementById("returnVehicleBtn");
+    const customerMessageGroup = document.getElementById("customerMessageGroup");
+    const customerMessageTextarea = document.getElementById("customerMessage");
+    const sendCustomerMessageBtn = document.getElementById("sendCustomerMessageBtn");
     let currentBookingId = null;
 
     // Populate table
@@ -110,8 +113,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 "₱" + formatCurrency(booking.subtotal);
             document.getElementById("modalVAT").textContent =
                 "₱" + formatCurrency(booking.vat);
+            document.getElementById("modalExtraCharge").textContent =
+                "₱" + formatCurrency(booking.extra_charge || 0);
             document.getElementById("modalTotal").textContent =
                 "₱" + formatCurrency(booking.total);
+            document.getElementById("modalDownpayment").textContent =
+                "₱" + formatCurrency(booking.downpayment || 0);
+            document.getElementById("modalRemainingBalance").textContent =
+                "₱" + formatCurrency(booking.remaining_balance || 0);
 
             const statusBadge = document.getElementById("modalStatus");
             statusBadge.textContent =
@@ -161,8 +170,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     booking.payment_status === "fullpaid") &&
                 canStartByDate;
             const isOngoing = booking.status === "ongoing";
+            const canSendCustomerMessage = ["approved", "ongoing", "finished"].includes(
+                booking.status,
+            );
 
             notesTextarea.disabled = !isPending;
+            customerMessageGroup.style.display = canSendCustomerMessage
+                ? "block"
+                : "none";
+            customerMessageTextarea.value = "";
             approveBtn.disabled = !isPending;
             approveBtn.style.display = isPending ? "block" : "none";
             rejectBtn.disabled = !isPending;
@@ -317,6 +333,56 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("An error occurred while starting the rental");
                 });
         }
+    });
+
+    sendCustomerMessageBtn.addEventListener("click", function () {
+        if (!currentBookingId) return;
+
+        const message = customerMessageTextarea.value.trim();
+
+        if (!message) {
+            alert("Please enter a message before sending.");
+            return;
+        }
+
+        sendCustomerMessageBtn.disabled = true;
+        const originalText = sendCustomerMessageBtn.textContent;
+        sendCustomerMessageBtn.textContent = "Sending...";
+
+        fetch(`/staff/bookings/${currentBookingId}/message`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN":
+                    document.querySelector('meta[name="csrf-token"]')
+                        ?.content || "",
+            },
+            body: JSON.stringify({
+                message: message,
+            }),
+        })
+            .then((response) =>
+                response.json().then((data) => ({
+                    status: response.status,
+                    data: data,
+                })),
+            )
+            .then(({ status, data }) => {
+                if (status === 200 && data.success) {
+                    alert("Message sent to customer.");
+                    customerMessageTextarea.value = "";
+                } else {
+                    alert("Error: " + (data.message || "Unable to send message."));
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("An error occurred while sending the message.");
+            })
+            .finally(() => {
+                sendCustomerMessageBtn.disabled = false;
+                sendCustomerMessageBtn.textContent = originalText;
+            });
     });
 
     // Return vehicle

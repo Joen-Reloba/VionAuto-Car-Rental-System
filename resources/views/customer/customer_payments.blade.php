@@ -47,6 +47,39 @@
                             <span>{{ ucfirst($payment->payment_type) }}</span>
                         </div>
                         <div class="detail-row">
+                            <label>Rental Period:</label>
+                            <span>{{ $payment->booking->rent_start->format('M d, Y') }} - {{ $payment->booking->rent_end->format('M d, Y') }}</span>
+                        </div>
+                        @if($payment->booking->returned_at)
+                        <div class="detail-row">
+                            <label>Returned:</label>
+                            <span>{{ $payment->booking->returned_at->format('M d, Y g:i A') }}</span>
+                        </div>
+                        @endif
+                        
+                        {{-- Breakdown Section --}}
+                        <div style="border-top: 1px solid #e0e0e0; margin-top: 10px; padding-top: 10px;">
+                            <div class="detail-row">
+                                <label>Subtotal:</label>
+                                <span class="amount">₱{{ number_format($payment->booking->subtotal, 2) }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <label>Tax Included (12%):</label>
+                                <span class="amount">₱{{ number_format($payment->booking->total * 0.12, 2) }}</span>
+                            </div>
+                            @if($payment->booking->extra_charge > 0)
+                            <div class="detail-row">
+                                <label>Extra Charge:</label>
+                                <span class="amount" style="color: #e74c3c;">₱{{ number_format($payment->booking->extra_charge, 2) }}</span>
+                            </div>
+                            @endif
+                            <div class="detail-row" style="border-top: 1px solid #e0e0e0; padding-top: 8px; margin-top: 8px; font-weight: bold;">
+                                <label>Total:</label>
+                                <span class="amount" style="font-weight: bold;">₱{{ number_format($payment->booking->total, 2) }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
                             <label>Amount Paid:</label>
                             <span class="amount">₱{{ number_format($payment->amount_paid, 2) }}</span>
                         </div>
@@ -119,3 +152,4 @@
     </script>
 </body>
 </html>
+

@@ -19,7 +19,6 @@ class Vehicle extends Model
         'category',
         'daily_rate',
         'description',
-        'image',
         'status',
     ];
 

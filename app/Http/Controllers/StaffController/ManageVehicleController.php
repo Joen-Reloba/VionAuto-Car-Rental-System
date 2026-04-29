@@ -120,6 +120,12 @@ class ManageVehicleController extends Controller
     public function update(Request $request, Vehicle $vehicle)
     {
         try {
+            if (in_array($vehicle->status, ['booked', 'rented'], true)) {
+                return redirect()->back()
+                    ->with('error', 'Cannot update a vehicle while it is booked or rented.')
+                    ->withInput($request->except('images'));
+            }
+
             $validated = $request->validate([
                 'brand' => 'required|string|max:255',
                 'model' => 'required|string|max:255',
@@ -127,7 +133,7 @@ class ManageVehicleController extends Controller
                 'plate_no' => 'required|string|max:20|unique:vehicles,plate_no,' . $vehicle->vehicle_ID . ',vehicle_ID',
                 'category' => 'required|string|in:sedan,suv,van,pickup',
                 'daily_rate' => 'required|numeric|min:0',
-                'status' => 'required|string|in:available,rented,maintenance,unavailable',
+                'status' => 'required|string|in:available,maintenance,unavailable',
                 'images' => 'nullable|array|max:3',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 'description' => 'nullable|string|max:1000',

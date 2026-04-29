@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\Staff;
+use App\Models\Booking;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -152,6 +154,61 @@ class ManageUserController extends Controller
     public function destroy(User $user)
     {
         try {
+            // Check if user is a staff member
+            if ($user->role === 'staff') {
+                // Check if staff has approved any active bookings
+                $activeBookingsApproved = Booking::where('approved_by_user_id', $user->user_ID)
+                    ->whereIn('status', ['pending', 'approved', 'ongoing'])
+                    ->count();
+
+                if ($activeBookingsApproved > 0) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Cannot delete this staff member. They have approved ' . $activeBookingsApproved . ' active booking(s). Please reassign or complete these bookings first.'
+                    ], 409);
+                }
+
+                // Check if staff has verified any pending payments
+                $pendingPayments = Payment::where('verified_by_user_id', $user->user_ID)
+                    ->where('status', 'pending')
+                    ->count();
+
+                if ($pendingPayments > 0) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Cannot delete this staff member. They have ' . $pendingPayments . ' pending payment(s) to verify.'
+                    ], 409);
+                }
+            }
+
+            // Check if user is a customer
+            if ($user->role === 'customer') {
+                // Check if customer has any active bookings
+                $activeBookings = Booking::where('customer_user_id', $user->user_ID)
+                    ->whereIn('status', ['pending', 'approved', 'ongoing'])
+                    ->count();
+
+                if ($activeBookings > 0) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Cannot delete this customer. They have ' . $activeBookings . ' active booking(s). Please complete or cancel these bookings first.'
+                    ], 409);
+                }
+
+                // Check if customer has any pending payments
+                $pendingPayments = Payment::whereHas('booking', function ($query) use ($user) {
+                    $query->where('customer_user_id', $user->user_ID);
+                })->where('status', 'pending')->count();
+
+                if ($pendingPayments > 0) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Cannot delete this customer. They have ' . $pendingPayments . ' pending payment(s).'
+                    ], 409);
+                }
+            }
+
+            // If all checks pass, delete the user
             $user->delete();
 
             return response()->json([
@@ -163,10 +220,15 @@ class ManageUserController extends Controller
             if (strpos($e->getMessage(), 'FOREIGN KEY') !== false) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Cannot delete this user. They have active bookings or payments associated with them.'
+                    'message' => 'Cannot delete this user. They have records associated with them. Please check bookings, payments, or related data.'
                 ], 409);
             }
 
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting user: ' . $e->getMessage()
+            ], 500);
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Error deleting user: ' . $e->getMessage()

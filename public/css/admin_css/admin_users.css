@@ -322,6 +322,8 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     position: relative;
     padding: 40px;
+    z-index: 2001;
+    pointer-events: auto;
 }
 
 .modal-close {
@@ -401,6 +403,62 @@
     word-break: break-word;
 }
 
+/* ── Modal Footer (for delete confirmation) ── */
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e5ef;
+    justify-content: flex-end;
+    pointer-events: auto;
+    z-index: auto;
+}
+
+.btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: "Segoe UI", sans-serif;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-secondary {
+    background: #e5e5ef;
+    color: #4b0082;
+}
+
+.btn-secondary:hover {
+    background: #d0d0dd;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
 @media (max-width: 600px) {
     .modal-content {
         padding: 30px 20px;
@@ -413,5 +471,14 @@
 
     .modal-title {
         font-size: 20px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
     }
 }

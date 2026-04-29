@@ -23,6 +23,7 @@
             <select id="statusFilter" class="filter-select" onchange="filterCards()">
                 <option value="">All Statuses</option>
                 <option value="available">Available</option>
+                <option value="booked">Booked</option>
                 <option value="rented">Rented</option>
                 <option value="maintenance">Maintenance</option>
                 <option value="unavailable">Unavailable</option>

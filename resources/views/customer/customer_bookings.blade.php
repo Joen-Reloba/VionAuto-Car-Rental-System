@@ -24,6 +24,7 @@
             <button class="filter-btn" data-filter="approved" onclick="filterBookings('approved')">Approved</button>
             <button class="filter-btn" data-filter="ongoing" onclick="filterBookings('ongoing')">Ongoing</button>
             <button class="filter-btn" data-filter="finished" onclick="filterBookings('finished')">Finished</button>
+            <button class="filter-btn" data-filter="cancelled" onclick="filterBookings('cancelled')">Cancelled</button>
         </div>
 
         <div class="bookings-container">
@@ -73,6 +74,12 @@
                             <label>Daily Rate:</label>
                             <span>₱{{ number_format($booking->vehicle->daily_rate, 2) }}</span>
                         </div>
+                        @if($booking->extra_charge > 0)
+                            <div class="detail-row">
+                                <label>Extra Charge:</label>
+                                <span class="amount" style="color: #e74c3c;">₱{{ number_format($booking->extra_charge, 2) }}</span>
+                            </div>
+                        @endif
                         <div class="detail-row">
                             <label>Total Amount:</label>
                             <span class="amount">₱{{ number_format($booking->total, 2) }}</span>
@@ -95,6 +102,8 @@
                         @elseif($booking->status === 'approved' && $booking->payment_status === 'unpaid')
                             <button class="action-btn pay-btn" onclick="makePayment({{ $booking->booking_ID }})">Pay Downpayment</button>
                         @elseif($booking->status === 'ongoing' && $booking->returned_at && $booking->payment_status === 'downpaid')
+                            <button class="action-btn fullpay-btn" onclick="makeFullPayment({{ $booking->booking_ID }})">Pay Remaining Balance</button>
+                        @elseif($booking->status === 'finished' && $booking->payment_status === 'downpaid')
                             <button class="action-btn fullpay-btn" onclick="makeFullPayment({{ $booking->booking_ID }})">Pay Remaining Balance</button>
                         @elseif($booking->status === 'ongoing')
                             <button class="action-btn view-btn" onclick="viewBookingDetails({{ $booking->booking_ID }})">View Details</button>
@@ -183,7 +192,10 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            const activeButton = document.querySelector(`[data-filter="${status}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
             
             // Show/hide cards based on filter
             const cards = document.querySelectorAll('.booking-card');
@@ -212,7 +224,34 @@
 
         function cancelBooking(bookingId) {
             if (confirm('Are you sure you want to cancel this booking?')) {
-                console.log('Cancel booking:', bookingId);
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const url = '{{ route("customer.booking.cancel", ["booking" => "__BOOKING_ID__"]) }}'.replace('__BOOKING_ID__', bookingId);
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    return response.json().then(data => ({
+                        status: response.status,
+                        data: data
+                    }));
+                })
+                .then(({ status, data }) => {
+                    if (status === 200 && data.success) {
+                        alert('Booking cancelled successfully.');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + (data.message || 'Unable to cancel booking.'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Cancel booking error:', error);
+                    alert('Error cancelling booking. Please try again.');
+                });
             }
         }
 
@@ -241,11 +280,20 @@
                 const bookingCard = document.querySelector(`[data-booking-id="${bookingId}"]`);
                 
                 if (bookingCard) {
-                    // Extract booking information from the card
+                    // Extract booking information from the card using label-based selectors
                     const carName = bookingCard.querySelector('.booking-title').textContent;
-                    const rentalPeriod = bookingCard.querySelector('.detail-row:nth-child(3) span:nth-child(2)').textContent;
-                    const totalAmount = bookingCard.querySelector('.detail-row:nth-child(5) span.amount').textContent;
-                    const downpayment = bookingCard.querySelector('.detail-row:nth-child(6) span.amount').textContent;
+                    
+                    // Find rental period by looking for the label "Rental Period:"
+                    const rentalPeriodRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Rental Period'));
+                    const rentalPeriod = rentalPeriodRow ? rentalPeriodRow.querySelector('span:last-child').textContent : '-';
+                    
+                    // Find total amount by looking for the label "Total Amount:"
+                    const totalRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Total Amount'));
+                    const totalAmount = totalRow ? totalRow.querySelector('.amount').textContent : '₱0.00';
+                    
+                    // Find downpayment by looking for the label "Downpayment:"
+                    const downRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Downpayment'));
+                    const downpayment = downRow ? downRow.querySelector('.amount').textContent : '₱0.00';
 
                     // Store booking data globally
                     currentBookingData = {
@@ -306,12 +354,20 @@
                 const bookingCard = document.querySelector(`[data-booking-id="${bookingId}"]`);
                 if (bookingCard) {
                     const carName = bookingCard.querySelector('.booking-title').textContent;
-                    const rentalPeriod = bookingCard.querySelector('.detail-row:nth-child(3) span:nth-child(2)').textContent;
-                    const totalAmount = bookingCard.querySelector('.detail-row:nth-child(5) span.amount').textContent;
-
-                    // Calculate remaining balance (total - downpayment)
-                    const totalRaw = parseFloat(bookingCard.querySelector('.detail-row:nth-child(5) span.amount').textContent.replace(/[₱,]/g, ''));
-                    const downRaw = parseFloat(bookingCard.querySelector('.detail-row:nth-child(6) span.amount').textContent.replace(/[₱,]/g, ''));
+                    
+                    // Find rental period by looking for the label "Rental Period:"
+                    const rentalPeriodRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Rental Period'));
+                    const rentalPeriod = rentalPeriodRow ? rentalPeriodRow.querySelector('span:last-child').textContent : '-';
+                    
+                    // Find total amount by looking for the label "Total Amount:"
+                    const totalRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Total Amount'));
+                    const totalAmount = totalRow ? totalRow.querySelector('.amount').textContent : '₱0.00';
+                    const totalRaw = parseFloat(totalAmount.replace(/[₱,]/g, ''));
+                    
+                    // Find downpayment by looking for the label "Downpayment:"
+                    const downRow = Array.from(bookingCard.querySelectorAll('.detail-row')).find(row => row.textContent.includes('Downpayment'));
+                    const downRaw = downRow ? parseFloat(downRow.querySelector('.amount').textContent.replace(/[₱,]/g, '')) : 0;
+                    
                     const remaining = (totalRaw - downRaw).toLocaleString('en-PH', { minimumFractionDigits: 2 });
 
                     currentBookingData = {
@@ -391,14 +447,6 @@
                 // Trigger filter
                 const filterBtn = document.querySelector(`[data-filter="${filterStatus}"]`);
                 if (filterBtn) {
-                    // Remove active class from all buttons
-                    document.querySelectorAll('.filter-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active to clicked button
-                    filterBtn.classList.add('active');
-                    
                     // Apply filter
                     filterBookings(filterStatus);
                 }

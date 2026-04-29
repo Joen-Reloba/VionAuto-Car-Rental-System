@@ -222,6 +222,11 @@
     color: #3730a3;
 }
 
+.status-badge.cancelled {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
 /* Booking Image */
 .booking-image {
     width: 100%;

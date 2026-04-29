@@ -169,9 +169,21 @@
                             <span>VAT (12%)</span>
                             <span id="modalVAT"></span>
                         </div>
+                        <div class="payment-item" id="modalExtraChargeRow">
+                            <span>Extra Charge (Late Return)</span>
+                            <span id="modalExtraCharge" style="color: #e74c3c;"></span>
+                        </div>
                         <div class="payment-item total">
                             <span>Total</span>
                             <span id="modalTotal"></span>
+                        </div>
+                        <div class="payment-item">
+                            <span>Downpayment</span>
+                            <span id="modalDownpayment"></span>
+                        </div>
+                        <div class="payment-item total">
+                            <span>Remaining Balance</span>
+                            <span id="modalRemainingBalance"></span>
                         </div>
                     </div>
                 </div>
@@ -190,12 +202,22 @@
 
                 {{-- Notes Section --}}
                 <div class="details-group">
-                    <h3 class="group-title">Staff Notes</h3>
+                    <h3 class="group-title">Customer Message</h3>
                     <textarea 
                         id="modalNotes" 
                         class="notes-textarea" 
-                        placeholder="Add any notes about this booking..."
+                        placeholder="Add a message that will be shown to the customer notification..."
                         rows="4"></textarea>
+                </div>
+
+                <div class="details-group" id="customerMessageGroup">
+                    <h3 class="group-title">Send Customer Message</h3>
+                    <textarea
+                        id="customerMessage"
+                        class="notes-textarea"
+                        placeholder="Send a new message to the customer..."
+                        rows="3"></textarea>
+                    <button class="action-btn send-message-btn" id="sendCustomerMessageBtn">Send Message</button>
                 </div>
 
                 <div class="modal-action-buttons">

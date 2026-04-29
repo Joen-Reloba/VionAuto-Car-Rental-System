@@ -52,7 +52,7 @@
                     <th>Customer</th>
                     <th>Vehicle</th>
                     <th>Rental Period</th>
-                    <th>Amount Due</th>
+                    <th>Payment Amount</th>
                     <th>Payment Type</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -100,9 +100,21 @@
                         <span class="info-label">Reference Number</span>
                         <span class="info-value" id="modalPaymentReference"></span>
                     </div>
+                    <div class="payment-info-item">
+                        <span class="info-label">Total Booking Amount</span>
+                        <span class="info-value" id="modalTotalBookingAmount"></span>
+                    </div>
                     <div class="payment-info-item amount-item">
-                        <span class="info-label">Amount Due</span>
+                        <span class="info-label">Payment Due</span>
                         <span class="info-value amount-value" id="modalPaymentAmount"></span>
+                    </div>
+                    <div class="payment-info-item">
+                        <span class="info-label">Amount Submitted</span>
+                        <span class="info-value" id="modalAmountSubmitted"></span>
+                    </div>
+                    <div class="payment-info-item">
+                        <span class="info-label">Remaining Balance</span>
+                        <span class="info-value" id="modalRemainingBalance"></span>
                     </div>
                 </div>
             </div>

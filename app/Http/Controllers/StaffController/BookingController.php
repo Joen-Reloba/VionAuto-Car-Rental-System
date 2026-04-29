@@ -32,10 +32,17 @@ class BookingController extends Controller
             $daysRented = $booking->rent_start->diffInDays($booking->rent_end);
             if ($daysRented == 0) $daysRented = 1; // Minimum 1 day
             
-            // Calculate total: (daily_rate * days) + VAT
-            $subtotal = $vehicle->daily_rate * $daysRented;
-            $vat = $subtotal * 0.12; // 12% VAT
-            $total = $subtotal + $vat;
+            // Use values from database
+            $subtotal = $booking->subtotal;
+            $extraCharge = $booking->extra_charge ?? 0;
+            $total = $booking->total;
+            $downpayment = $booking->downpayment ?? 0;
+            $remainingBalance = $booking->payment_status === 'fullpaid'
+                ? 0
+                : max(0, $total - $downpayment);
+            
+            // Calculate VAT for display (12% of subtotal) but don't recalculate total
+            $vatDisplay = $subtotal * 0.12;
             
             // Get vehicle image
             $vehicleImage = $vehicle->images->where('is_primary', true)->first() ?? $vehicle->images->first();
@@ -57,8 +64,11 @@ class BookingController extends Controller
                 'rent_end' => $booking->rent_end->format('m/d/Y'),
                 'days_rented' => $daysRented,
                 'subtotal' => $subtotal,
-                'vat' => $vat,
+                'vat' => $vatDisplay,
+                'extra_charge' => $extraCharge,
                 'total' => $total,
+                'downpayment' => $downpayment,
+                'remaining_balance' => $remainingBalance,
                 'vehicle_color' => $vehicle->color ?? 'N/A',
                 'vehicle_category' => $vehicle->category ?? 'N/A',
                 'status' => $booking->status,
@@ -96,10 +106,15 @@ class BookingController extends Controller
         $daysRented = $booking->rent_start->diffInDays($booking->rent_end);
         if ($daysRented == 0) $daysRented = 1;
         
-        // Calculate total
-        $subtotal = $vehicle->daily_rate * $daysRented;
+        // Use saved booking values for consistency with the staff list/modal
+        $subtotal = $booking->subtotal;
         $vat = $subtotal * 0.12;
-        $total = $subtotal + $vat;
+        $extraCharge = $booking->extra_charge ?? 0;
+        $total = $booking->total;
+        $downpayment = $booking->downpayment ?? 0;
+        $remainingBalance = $booking->payment_status === 'fullpaid'
+            ? 0
+            : max(0, $total - $downpayment);
         
         // Get vehicle image
         $vehicleImage = $vehicle->images->where('is_primary', true)->first() ?? $vehicle->images->first();
@@ -124,7 +139,10 @@ class BookingController extends Controller
             'days_rented' => $daysRented,
             'subtotal' => $subtotal,
             'vat' => $vat,
+            'extra_charge' => $extraCharge,
             'total' => $total,
+            'downpayment' => $downpayment,
+            'remaining_balance' => $remainingBalance,
             'status' => $booking->status,
             'payment_status' => $booking->payment_status,
         ];
@@ -306,6 +324,42 @@ class BookingController extends Controller
         }
     }
 
+    public function sendMessage(Request $request, Booking $booking)
+    {
+        $validated = $request->validate([
+            'message' => 'required|string|max:1000',
+        ]);
+
+        if (!in_array($booking->status, ['approved', 'ongoing', 'finished'], true)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Messages can only be sent for approved, ongoing, or finished bookings.',
+            ], 422);
+        }
+
+        try {
+            BookingNotification::create([
+                'booking_ID' => $booking->booking_ID,
+                'customer_user_id' => $booking->customer_user_id,
+                'type' => 'message',
+                'message' => 'Message from staff for booking #' . $booking->booking_ID,
+                'staff_note' => $validated['message'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Message sent to customer.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send customer message: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error sending message: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function returnVehicle(Request $request, $id)
     {
         try {
@@ -319,14 +373,13 @@ class BookingController extends Controller
                 ], 400);
             }
 
-            // Update vehicle status to maintenance
+            // Mark as returned and calculate extra charges FIRST
+            $booking->markAsReturned();
+            $booking->save();
+
+            // Only update vehicle status if calculation succeeded
             $booking->vehicle->update([
                 'status' => 'maintenance',
-            ]);
-
-            // Update booking returned_at timestamp
-            $booking->update([
-                'returned_at' => now(),
             ]);
 
             // Create notification for customer

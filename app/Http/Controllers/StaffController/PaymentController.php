@@ -23,13 +23,23 @@ class PaymentController extends Controller
 
         // Format payment data for view
         $paymentsData = $payments->map(function ($payment) {
+            $booking = $payment->booking;
+            $totalBookingAmount = $booking->total ?? 0;
+            $downpayment = $booking->downpayment ?? 0;
+            $amountDue = $payment->amount_paid;
+            $remainingBalance = $booking->payment_status === 'fullpaid'
+                ? 0
+                : max(0, $totalBookingAmount - $downpayment);
+
             return [
                 'payment_ID' => $payment->payment_ID,
                 'booking_ID' => $payment->booking_ID,
                 'customer_name' => $payment->booking->customer?->user?->name ?? 'N/A',
                 'vehicle_name' => $payment->booking->vehicle?->brand . ' ' . $payment->booking->vehicle?->model ?? 'N/A',
-                'amount_due' => $payment->booking->total,
+                'total_booking_amount' => $totalBookingAmount,
+                'amount_due' => $amountDue,
                 'amount_paid' => $payment->amount_paid,
+                'remaining_balance' => $remainingBalance,
                 'payment_type' => $payment->payment_type,
                 'status' => $payment->status,
                 'receipt_image' => $payment->receipt_image ? asset('assets/images/images-receipts/' . $payment->receipt_image) : null,
@@ -58,13 +68,23 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
+        $booking = $payment->booking;
+        $totalBookingAmount = $booking->total ?? 0;
+        $downpayment = $booking->downpayment ?? 0;
+        $amountDue = $payment->amount_paid;
+        $remainingBalance = $booking->payment_status === 'fullpaid'
+            ? 0
+            : max(0, $totalBookingAmount - $downpayment);
+
         $paymentData = [
             'payment_ID' => $payment->payment_ID,
             'booking_ID' => $payment->booking_ID,
             'customer_name' => $payment->booking->customer?->user?->name ?? 'N/A',
             'vehicle_name' => $payment->booking->vehicle?->brand . ' ' . $payment->booking->vehicle?->model ?? 'N/A',
-            'amount_due' => $payment->booking->total,
+            'total_booking_amount' => $totalBookingAmount,
+            'amount_due' => $amountDue,
             'amount_paid' => $payment->amount_paid,
+            'remaining_balance' => $remainingBalance,
             'payment_type' => $payment->payment_type,
             'status' => $payment->status,
             'receipt_image' => $payment->receipt_image ? asset('assets/images/images-receipts/' . $payment->receipt_image) : null,
@@ -88,7 +108,7 @@ class PaymentController extends Controller
             // Update payment status
             $payment->update([
                 'status' => 'verified',
-                'verified_by' => Auth::user()->staff->staff_ID,
+                'verified_by_user_id' => Auth::id(),
                 'verified_at' => now()
             ]);
 
@@ -161,7 +181,7 @@ class PaymentController extends Controller
             // Update payment status
             $payment->update([
                 'status' => 'rejected',
-                'verified_by' => Auth::user()->staff->staff_ID,
+                'verified_by_user_id' => Auth::id(),
                 'verified_at' => now()
             ]);
 

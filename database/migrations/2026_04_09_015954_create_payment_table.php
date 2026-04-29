@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id('payment_ID');
             $table->unsignedBigInteger('booking_ID');
             $table->foreign('booking_ID')->references('booking_ID')->on('bookings')->onDelete('cascade');
-            $table->unsignedBigInteger('verified_by')->nullable();
-            $table->foreign('verified_by')->references('staff_ID')->on('staff')->onDelete('set null');
+            $table->unsignedBigInteger('verified_by_user_id')->nullable();
+            $table->foreign('verified_by_user_id')->references('user_ID')->on('users')->onDelete('set null');
             $table->enum('payment_type', ['downpayment', 'final']);
             $table->string('reference_number')->nullable();
             $table->string('receipt_image')->nullable();
@@ -27,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('payment');
+        Schema::dropIfExists('payments');
     }
 };

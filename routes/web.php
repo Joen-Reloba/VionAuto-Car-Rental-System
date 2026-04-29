@@ -22,12 +22,13 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landing');
 Route::get('/landing', [LandingPageController::class, 'index'])->name('landing.alt');
 Route::get('/customer/browse-all-vehicles', [LandingPageController::class, 'browseAllVehicles'])->name('customer.browse-all-vehicles');
 Route::get('/customer/vehicle/{vehicleId}', [LandingPageController::class, 'viewVehicle'])->name('customer.view-vehicle');
-Route::post('/customer/booking/store', [CustomerBookingController::class, 'store'])->name('customer.booking.store');
 
 
 // Customer routes (protected)
 Route::middleware(['auth'])->prefix('customer')->group(function () {
+    Route::post('/customer/booking/store', [CustomerBookingController::class, 'store'])->name('customer.booking.store');
     Route::get('/bookings', [CustomerBookingController::class, 'index'])->name('customer.bookings');
+    Route::post('/bookings/{booking}/cancel', [CustomerBookingController::class, 'cancel'])->name('customer.booking.cancel');
     Route::get('/payments', [CustomerPaymentController::class, 'index'])->name('customer.payments');
     Route::get('/payments/{payment}', [CustomerPaymentController::class, 'show'])->name('customer.payments.show');
     Route::post('/submit-payment', [CustomerPaymentController::class, 'submitPayment'])->name('customer.submit-payment');
@@ -83,6 +84,7 @@ Route::middleware(['auth'])->prefix('staff')->group(function () {
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('staff.bookings.show');
     Route::post('/bookings/{booking}/approve', [BookingController::class, 'approve'])->name('staff.bookings.approve');
     Route::post('/bookings/{booking}/reject', [BookingController::class, 'reject'])->name('staff.bookings.reject');
+    Route::post('/bookings/{booking}/message', [BookingController::class, 'sendMessage'])->name('staff.bookings.message');
     Route::post('/bookings/{booking}/start-rental', [BookingController::class, 'startRental'])->name('staff.bookings.start-rental');
     Route::post('/bookings/{booking}/return-vehicle', [BookingController::class, 'returnVehicle'])->name('staff.bookings.return-vehicle');
     Route::get('/payments', [PaymentController::class, 'index'])->name('staff.payments');

@@ -17,7 +17,8 @@
 {{-- Stat Cards --}}
 <div class="stat-grid">
  
-    <div class="stat-card card-users">
+        {{-- Total Customers Card - clicks to Reports --}}
+    <a href="{{ route('admin.users') }}" class="stat-card card-users" style="text-decoration: none;">
         <div class="stat-icon-wrap">
             <img src="{{asset('assets/icons/customers.png')}}" alt="Customers">
         </div>
@@ -29,8 +30,8 @@
                 {{ $newCustomersPercent ?? '0' }}% this month
             </span>
         </div>
-    </div>
- 
+    </a>
+    
     <div class="stat-card card-bookings">
         <div class="stat-icon-wrap">
             <img src="{{asset('assets/icons/Calendar.png')}}" alt="Calendar">
@@ -44,9 +45,10 @@
         </div>
     </div>
  
-    <div class="stat-card card-revenue">
+        {{-- Revenue Card - clicks to Reports --}}
+    <a href="{{ route('admin.reports') }}" class="stat-card card-revenue" style="text-decoration: none;">
         <div class="stat-icon-wrap">
-           <img src="{{asset('assets/icons/dollar.png')}}" alt="">
+        <img src="{{asset('assets/icons/dollar.png')}}" alt="">
         </div>
         <div class="stat-body">
             <p class="stat-label">Revenue This Month</p>
@@ -56,7 +58,7 @@
                 {{ $revenuePercent ?? '0' }}% from last month
             </span>
         </div>
-    </div>
+    </a>
  
 </div>
  

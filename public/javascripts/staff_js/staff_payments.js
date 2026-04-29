@@ -74,8 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 payment.payment_type;
             document.getElementById("modalPaymentReference").textContent =
                 payment.reference_number || "N/A";
+            document.getElementById("modalTotalBookingAmount").textContent =
+                "\u20B1" + formatCurrency(payment.total_booking_amount || 0);
             document.getElementById("modalPaymentAmount").textContent =
-                "₱" + formatCurrency(payment.amount_due);
+                "\u20B1" + formatCurrency(payment.amount_due);
+            document.getElementById("modalAmountSubmitted").textContent =
+                "\u20B1" + formatCurrency(payment.amount_paid || 0);
+            document.getElementById("modalRemainingBalance").textContent =
+                "\u20B1" + formatCurrency(payment.remaining_balance || 0);
             document.getElementById("modalReceiptImage").src =
                 payment.receipt_image ||
                 "https://via.placeholder.com/400x400?text=No+Receipt";

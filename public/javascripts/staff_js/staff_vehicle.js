@@ -13,6 +13,7 @@ const TYPE_LABELS = {
 
 const STATUS_LABELS = {
     available: "Available",
+    booked: "Booked",
     rented: "Rented",
     maintenance: "Maintenance",
     unavailable: "Unavailable",

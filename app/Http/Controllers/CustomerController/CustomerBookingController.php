@@ -47,12 +47,12 @@ class CustomerBookingController extends Controller
                 ->firstOrFail();
 
             // Get customer user ID (from auth if logged in)
-            $customerUserId = Auth::id();
+            // $customerUserId = Auth::id();
 
             // Create booking
             $booking = Booking::create([
                 'vehicle_ID' => $validated['vehicle_ID'],
-                'customer_user_id' => $customerUserId,
+                'customer_user_id' => Auth::id(), 
                 'approved_by_user_id' => null,
                 'rent_start' => $validated['trip_start'],
                 'rent_end' => $validated['trip_end'],
@@ -76,5 +76,31 @@ class CustomerBookingController extends Controller
                 'message' => 'Error creating booking: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function cancel(Booking $booking)
+    {
+        if ($booking->customer_user_id !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not allowed to cancel this booking.',
+            ], 403);
+        }
+
+        if ($booking->status !== 'pending') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Only pending bookings can be cancelled.',
+            ], 422);
+        }
+
+        $booking->update([
+            'status' => 'cancelled',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Booking cancelled successfully.',
+        ]);
     }
 }

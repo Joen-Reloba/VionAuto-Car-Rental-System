@@ -11,16 +11,19 @@ class Booking extends Model
 
     protected $primaryKey = 'booking_ID';
 
+
+
     protected $fillable = [
         'vehicle_ID',
-        'customer_user_id',              // changed
-        'approved_by_user_id',           // changed
+        'customer_user_id',
+        'approved_by_user_id',
         'rent_start',
         'rent_end',
         'downpayment',
         'subtotal',
         'tax',
         'total',
+        'extra_charge',
         'status',
         'payment_status',
         'returned_at',
@@ -72,5 +75,54 @@ class Booking extends Model
     public function notifications()
     {
         return $this->hasMany(BookingNotification::class, 'booking_ID', 'booking_ID');
+    }
+
+    /**
+     * Calculate days late based on actual return vs expected return date (rent_end)
+     * Returns 0 if returned on time or early
+     */
+    public function getDaysLateAttribute()
+    {
+        if (!$this->returned_at) {
+            return 0;
+        }
+        
+        try {
+            if (!$this->rent_end) {
+                return 0;
+            }
+            
+            $expectedDate = \Carbon\Carbon::parse($this->rent_end);
+            $actualDate = \Carbon\Carbon::parse($this->returned_at);
+            
+            // Only count as late if returned AFTER rent_end
+            if ($actualDate->gt($expectedDate)) {
+                return $actualDate->diffInDays($expectedDate);
+            }
+            return 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * Calculate extra charge: days_late * vehicle daily_rate
+     */
+    public function calculateExtraCharge()
+    {
+        $daysLate = $this->days_late;
+        $dailyRate = $this->vehicle?->daily_rate ?? 0;
+        return max(0, $daysLate * $dailyRate);
+    }
+
+    /**
+     * Mark as returned and calculate extra charges
+     */
+    public function markAsReturned()
+    {
+        $this->returned_at = now();
+        $this->extra_charge = $this->calculateExtraCharge();
+        $this->total = $this->subtotal + $this->tax + $this->extra_charge;
+        return $this;
     }
 }

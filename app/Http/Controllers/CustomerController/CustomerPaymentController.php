@@ -87,7 +87,7 @@ class CustomerPaymentController extends Controller
         $paymentType = $request->input('payment_type', 'downpayment');
 
         // For downpayment: block if a non-rejected downpayment already exists
-        // For fullpayment: block if a non-rejected fullpayment already exists
+        // For final: block if a non-rejected final payment already exists
         $existingPayment = Payment::where('booking_ID', $booking->booking_ID)
             ->where('payment_type', $paymentType)
             ->where('status', '!=', 'rejected')
@@ -100,12 +100,12 @@ class CustomerPaymentController extends Controller
             ], 400);
         }
 
-        // For fullpayment, also verify the vehicle has been returned
-        if ($paymentType === 'fullpayment') {
+        // For final payment, verify the vehicle has been returned
+        if ($paymentType === 'final') {
             if (!$booking->returned_at) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Vehicle must be returned before submitting full payment'
+                    'message' => 'Vehicle must be returned before submitting final payment'
                 ], 400);
             }
             $amountDue = $booking->total - $booking->downpayment;

@@ -140,7 +140,6 @@
                     <select id="status" name="status" required>
                         <option value="">Select Status</option>
                         <option value="available" {{ old('status', $vehicle->status) == 'available' ? 'selected' : '' }}>Available</option>
-                        <option value="rented" {{ old('status', $vehicle->status) == 'rented' ? 'selected' : '' }}>Rented</option>
                         <option value="maintenance" {{ old('status', $vehicle->status) == 'maintenance' ? 'selected' : '' }}>Maintenance</option>
                         <option value="unavailable" {{ old('status', $vehicle->status) == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
                     </select>
@@ -172,9 +171,9 @@
         const form = document.querySelector('form');
         const currentStatus = "{{ $vehicle->status }}";
 
-        // Check if vehicle status is not "available"
+        // Block updates only while the vehicle is reserved or in use
         function checkVehicleStatus() {
-            if (currentStatus !== 'available') {
+            if (currentStatus === 'booked' || currentStatus === 'rented') {
                 // Add warning message
                 const warningDiv = document.createElement('div');
                 warningDiv.className = 'status-warning';
@@ -187,7 +186,7 @@
                     margin-bottom: 20px;
                     font-weight: 500;
                 `;
-                warningDiv.innerHTML = `⚠️ <strong>Status Warning:</strong> This vehicle is currently "<strong>${currentStatus}</strong>" and cannot be updated. Only vehicles with "Available" status can be updated.`;
+                warningDiv.innerHTML = `<strong>Status Warning:</strong> This vehicle is currently "<strong>${currentStatus}</strong>" and cannot be updated while it is booked or rented.`;
                 
                 // Insert after page title
                 const header = document.querySelector('.page-header');
@@ -209,7 +208,7 @@
                     cursor: not-allowed !important;
                     opacity: 0.6;
                 `;
-                submitBtn.title = 'Cannot update vehicle - status is not "Available"';
+                submitBtn.title = 'Cannot update vehicle while it is booked or rented';
 
                 return false;
             }
@@ -220,7 +219,7 @@
         form.addEventListener('submit', function(e) {
             if (!checkVehicleStatus()) {
                 e.preventDefault();
-                alert('❌ Cannot update vehicle\n\nThis vehicle is currently in use or not available for updates.\n\nCurrent Status: ' + currentStatus);
+                alert('Cannot update vehicle\n\nThis vehicle cannot be updated while it is booked or rented.\n\nCurrent Status: ' + currentStatus);
                 return false;
             }
         });

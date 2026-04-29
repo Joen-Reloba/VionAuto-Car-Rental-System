@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('category');
             $table->decimal('daily_rate', 10, 2);
             $table->string('image')->nullable();
-            $table->enum('status', ['available', 'booked', 'rented', 'maintenance'])->default('available');
+            $table->enum('status', ['available', 'booked', 'rented', 'maintenance', 'unavailable'])->default('available');
             $table->timestamps();
         });
     }

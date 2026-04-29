@@ -307,14 +307,12 @@
         // Form submission
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            openBookingModal();
-        });
 
-        // Close modal when clicking outside
-        document.getElementById('bookingModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeBookingModal();
-            }
+            @auth
+                openBookingModal();
+            @else
+                window.location.href = '{{ route('login') }}';
+            @endauth
         });
     </script>
 </body>

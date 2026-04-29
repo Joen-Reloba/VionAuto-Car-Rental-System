@@ -354,6 +354,111 @@
                 }
             });
         });
+
+        // Delete button functionality
+        let currentDeleteUserId = null;
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const userId = this.getAttribute('data-id');
+                const userRow = this.closest('tr');
+                const userName = userRow.querySelector('td:nth-child(2)').textContent;
+                
+                currentDeleteUserId = userId;
+                document.getElementById('deleteUserName').textContent = userName;
+                document.getElementById('deleteConfirmModal').classList.remove('modal-hidden');
+            });
+        });
+
+        async function deleteUser() {
+            if (!currentDeleteUserId) return;
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                             document.querySelector('input[name="_token"]')?.value;
+            
+            try {
+                const response = await fetch(`/admin/users/${currentDeleteUserId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    closeDeleteModal();
+                    location.reload();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to delete user'));
+                    closeDeleteModal();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error deleting user: ' + error.message);
+                closeDeleteModal();
+            }
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteConfirmModal').classList.add('modal-hidden');
+            currentDeleteUserId = null;
+        }
+
+        // Close delete modal when clicking outside
+        document.getElementById('deleteConfirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+    </script>
+
+    {{-- Delete Confirmation Modal --}}
+    <div id="deleteConfirmModal" class="modal modal-hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            
+            <h2 class="modal-title">Confirm Delete</h2>
+            
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="deleteUserName">this user</strong>?</p>
+                <p style="color: #666; font-size: 0.9em; margin-top: 10px;">
+                    ⚠️ This action cannot be undone. If this user has active bookings or payments, deletion will be prevented.
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+                <button id="confirmDeleteBtn" class="btn btn-danger">Delete User</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Attach button listeners AFTER buttons exist in DOM
+        setTimeout(function() {
+            const cancelBtn = document.getElementById('cancelDeleteBtn');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeDeleteModal();
+                });
+            }
+            
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteUser();
+                });
+            }
+        }, 100);
     </script>
 
 @endsection
