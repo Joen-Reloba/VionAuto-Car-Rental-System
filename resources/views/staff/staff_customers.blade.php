@@ -1,7 +1,7 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/staff_css/staff_customers.css') }}">
+    @vite(['resources/css/staff_css/staff_customers.css'])
 @endsection
 
 @section('content')

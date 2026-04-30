@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Bookings</title>
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/customer_css/customer_bookings.css') }}">
+    @vite(['resources/css/customer_css/customer_bookings.css'])
 </head>
 <body>
     @include('layouts.landing_page_navbar')

@@ -1,7 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/admin_css/admin_users.css') }}">
+   @vite(['resources/css/admin_css/admin_users.css'])
 @endsection
 
 @section('content')

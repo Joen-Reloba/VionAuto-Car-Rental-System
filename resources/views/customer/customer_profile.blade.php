@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Profile</title>
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/customer_css/customer_profile.css') }}">
+  @vite(['resources/css/customer_css/customer_profile.css'])
     
 </head>
 <body>

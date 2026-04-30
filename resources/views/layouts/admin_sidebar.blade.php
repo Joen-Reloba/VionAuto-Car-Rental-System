@@ -18,13 +18,7 @@
                 Manage Users
             </a>
         </li>
-        {{-- <li>
-            <a href="{{ route('admin.customers') }}"
-               class="{{ request()->routeIs('admin.customers') ? 'active' : '' }}">
-                <img src="{{ asset('assets/icons/customers.png') }}" alt="customers">
-                Customers
-            </a>
-        </li> --}}
+
         <li>
             <a href="{{ route('admin.reports') }}"
                class="{{ request()->routeIs('admin.reports') ? 'active' : '' }}">

@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Payments</title>
-    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/customer_css/customer_payments.css') }}">
+   @vite(['resources/css/customer_css/customer_payments.css'])
 </head>
 <body>
     @include('layouts.landing_page_navbar')
