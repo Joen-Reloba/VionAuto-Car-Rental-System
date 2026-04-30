@@ -146,14 +146,23 @@ function openModal(car) {
         TYPE_LABELS[car.type] || car.type;
     document.getElementById("modalBrand").textContent = car.brand;
     document.getElementById("modalModel").textContent = car.model;
-    document.getElementById("modalYear").textContent = car.year;
     document.getElementById("modalPrice").textContent =
         formatPrice(car.daily_rate) + "/day";
     document.getElementById("modalType").textContent =
         TYPE_LABELS[car.type] || car.type;
     document.getElementById("modalDate").textContent = car.created_at;
     document.getElementById("modalDescription").textContent =
-        car.description || "—";
+        car.description && car.description.trim() !== ""
+            ? car.description
+            : "No description available";
+
+    /* Show/hide description wrap based on whether description exists */
+    const descWrap = document.getElementById("modalDescriptionWrap");
+    if (!car.description || car.description.trim() === "") {
+        descWrap.style.display = "none";
+    } else {
+        descWrap.style.display = "";
+    }
 
     /* Status pill */
     const pill = document.getElementById("modalStatusPill");

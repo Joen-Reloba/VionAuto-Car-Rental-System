@@ -68,6 +68,13 @@
                 {{-- Will be populated by JavaScript --}}
             </tbody>
         </table>
+
+        {{-- Pagination --}}
+        @if($bookings->hasPages())
+            <div class="pagination-wrapper">
+                {{ $bookings->links('vendor.pagination.custom') }}
+            </div>
+        @endif
     </div>
 </div>
 

@@ -119,6 +119,13 @@
                 </div>
             @endforelse
         </div>
+
+        {{-- Pagination --}}
+        @if($bookings->hasPages())
+            <div class="pagination-wrapper">
+                {{ $bookings->links('vendor.pagination.custom') }}
+            </div>
+        @endif
     </div>
 
     {{-- Payment Modal --}}

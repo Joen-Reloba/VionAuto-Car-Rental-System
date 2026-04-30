@@ -12,14 +12,14 @@ class CustomerBookingController extends Controller
 {
     public function index(Request $request)
     {
-        // Get all bookings for the logged-in customer
+        // Get bookings for the logged-in customer with pagination (6 per page)
         $bookings = Booking::with([
             'vehicle',
             'vehicle.images'
         ])
         ->where('customer_user_id', Auth::id())
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(6);
 
         // Get filter status from query parameter (from notification redirect)
         $filterStatus = $request->query('status', 'all');

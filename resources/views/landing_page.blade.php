@@ -249,4 +249,21 @@
         // Initialize
         createIndicators();
         updateCarousel();
+
+        // Search button handler
+        const searchBtn = document.querySelector('.search-btn');
+        searchBtn.addEventListener('click', () => {
+            const category = document.getElementById('categorySelect').value;
+            const brand = document.getElementById('brandInput').value;
+            const price = document.getElementById('priceSelect').value;
+
+            // Build URL with query parameters
+            const params = new URLSearchParams();
+            if (category) params.append('category', category);
+            if (brand) params.append('brand', brand);
+            if (price) params.append('price', price);
+
+            const browseUrl = "{{ route('customer.browse-all-vehicles') }}" + (params.toString() ? '?' + params.toString() : '');
+            window.location.href = browseUrl;
+        });
     </script>

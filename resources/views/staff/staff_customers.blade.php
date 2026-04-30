@@ -54,6 +54,13 @@
                     </table>
                 </div>
 
+                {{-- Pagination --}}
+                @if($pagination->hasPages())
+                    <div class="pagination-wrapper">
+                        {{ $pagination->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+
             </div>
 </div>
 

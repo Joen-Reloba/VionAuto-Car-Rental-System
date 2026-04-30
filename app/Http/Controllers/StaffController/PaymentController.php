@@ -16,13 +16,13 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        // Fetch all payments with relationships
-        $payments = Payment::with(['booking.customer.user', 'booking.vehicle'])
+        // Fetch paginated payments with relationships (10 per page)
+        $paymentsPaginated = Payment::with(['booking.customer.user', 'booking.vehicle'])
             ->orderBy('payment_date', 'desc')
-            ->get();
+            ->paginate(10);
 
-        // Format payment data for view
-        $paymentsData = $payments->map(function ($payment) {
+        // Format payment data for view (only current page)
+        $paymentsData = $paymentsPaginated->getCollection()->map(function ($payment) {
             $booking = $payment->booking;
             $totalBookingAmount = $booking->total ?? 0;
             $downpayment = $booking->downpayment ?? 0;
@@ -50,16 +50,18 @@ class PaymentController extends Controller
             ];
         })->toArray();
 
-        // Calculate stats
+        // Calculate stats (from all payments, not just current page)
+        $allPayments = Payment::all();
         $stats = [
-            'pending' => $payments->where('status', 'pending')->count(),
-            'verified' => $payments->where('status', 'verified')->count(),
-            'rejected' => $payments->where('status', 'rejected')->count(),
+            'pending' => $allPayments->where('status', 'pending')->count(),
+            'verified' => $allPayments->where('status', 'verified')->count(),
+            'rejected' => $allPayments->where('status', 'rejected')->count(),
         ];
 
         return view('staff.staff_payments', [
             'paymentsData' => $paymentsData,
             'stats' => $stats,
+            'payments' => $paymentsPaginated
         ]);
     }
 

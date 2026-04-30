@@ -17,10 +17,10 @@ class ManageVehicleController extends Controller
 
     public function index()
     {
-        $cars = Vehicle::with('images')->get();
+        $cars = Vehicle::with('images')->paginate(8);
         
         // Format car data for JavaScript
-        $carsData = $cars->map(function ($car) {
+        $carsData = $cars->getCollection()->map(function ($car) {
             $imagePath = null;
             
             // Try to get primary image first, then fallback to first image

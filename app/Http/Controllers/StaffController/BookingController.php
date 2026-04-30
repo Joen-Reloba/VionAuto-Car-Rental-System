@@ -14,17 +14,17 @@ class BookingController extends Controller
 {
     public function index()
     {
-        // Fetch all bookings with relationships
-        $bookings = Booking::with([
+        // Fetch paginated bookings with relationships (10 per page)
+        $bookingsPaginated = Booking::with([
             'customer.user',
             'vehicle.images',
             'approvedBy'
         ])
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(10);
 
-        // Format bookings data with calculated totals
-        $bookingsData = $bookings->map(function ($booking) {
+        // Format bookings data with calculated totals (only for current page)
+        $bookingsData = $bookingsPaginated->getCollection()->map(function ($booking) {
             $vehicle = $booking->vehicle;
             $customer = $booking->customer;
             
@@ -80,7 +80,8 @@ class BookingController extends Controller
             ];
         })->toArray();
 
-        // Stats
+        // Stats (count totals, not just current page)
+        $allBookingsCount = Booking::count();
         $stats = [
             'ongoing' => Booking::where('status', 'ongoing')->count(),
             'pending' => Booking::where('status', 'pending')->count(),
@@ -88,7 +89,11 @@ class BookingController extends Controller
             'finished' => Booking::where('status', 'finished')->count(),
         ];
 
-        return view('staff.staff_bookings', compact('bookingsData', 'stats'));
+        return view('staff.staff_bookings', [
+            'bookingsData' => $bookingsData, 
+            'stats' => $stats,
+            'bookings' => $bookingsPaginated
+        ]);
     }
 
     public function show($id)
@@ -275,16 +280,19 @@ class BookingController extends Controller
                 ], 400);
             }
 
-            // Check if rental can be started (1 day before or on the day of rent start)
+            // Check if rental can be started (1 day before rent_start or during rental period through rent_end)
             $today = now()->startOfDay();
             $rentStartDate = $booking->rent_start->startOfDay();
+            $rentEndDate = $booking->rent_end->startOfDay();
             $oneDayBefore = $rentStartDate->copy()->subDay();
 
-            if ($today->isBefore($oneDayBefore) || $today->isAfter($rentStartDate)) {
+            if ($today->isBefore($oneDayBefore) || $today->isAfter($rentEndDate)) {
                 $formattedStartDate = $booking->rent_start->format('M d, Y');
+                $formattedEndDate = $booking->rent_end->format('M d, Y');
+                $formattedOneDayBefore = $oneDayBefore->format('M d, Y');
                 return response()->json([
                     'success' => false,
-                    'message' => "Rental can only be started 1 day before ($oneDayBefore->format('M d, Y')) or on the day of rent start ($formattedStartDate)",
+                    'message' => "Rental can only be started from $formattedOneDayBefore (1 day before) through $formattedEndDate (rental end date)",
                 ], 400);
             }
 

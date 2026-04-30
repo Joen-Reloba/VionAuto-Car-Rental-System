@@ -46,6 +46,13 @@
     {{-- ── Card Grid ── --}}
     <div class="car-grid" id="carGrid"></div>
 
+    {{-- ── Pagination ── --}}
+    @if($cars->hasPages())
+        <div class="pagination-wrapper">
+            {{ $cars->links('vendor.pagination.custom') }}
+        </div>
+    @endif
+
 </div>
 
 {{-- ── Vehicle Detail Modal ── --}}
@@ -82,10 +89,6 @@
                 <div class="detail-item">
                     <span class="detail-label">Model</span>
                     <span class="detail-value" id="modalModel"></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Year</span>
-                    <span class="detail-value" id="modalYear"></span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Daily Rate</span>

@@ -12,7 +12,7 @@ class CustomerPaymentController extends Controller
 {
     public function index()
     {
-        // Get all payments for the logged-in customer through their bookings
+        // Get all payments for the logged-in customer through their bookings with pagination (6 per page)
         $payments = Payment::whereIn('booking_ID', function ($query) {
             $query->select('booking_ID')
                 ->from('bookings')
@@ -20,7 +20,7 @@ class CustomerPaymentController extends Controller
         })
         ->with(['booking', 'booking.vehicle', 'verifiedBy'])
         ->orderBy('payment_date', 'desc')
-        ->get();
+        ->paginate(6);
 
         return view('customer.customer_payments', compact('payments'));
     }

@@ -6,9 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const rejectBtn = document.getElementById("rejectBtn");
     const startRentalBtn = document.getElementById("startRentalBtn");
     const returnVehicleBtn = document.getElementById("returnVehicleBtn");
-    const customerMessageGroup = document.getElementById("customerMessageGroup");
+    const customerMessageGroup = document.getElementById(
+        "customerMessageGroup",
+    );
     const customerMessageTextarea = document.getElementById("customerMessage");
-    const sendCustomerMessageBtn = document.getElementById("sendCustomerMessageBtn");
+    const sendCustomerMessageBtn = document.getElementById(
+        "sendCustomerMessageBtn",
+    );
     let currentBookingId = null;
 
     // Populate table
@@ -143,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Enable/disable notes textarea and buttons based on status
             const isPending = booking.status === "pending";
 
-            // Check if rental can be started (1 day before or on the day of rent start)
+            // Check if rental can be started (1 day before rent_start through rent_end)
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
@@ -156,13 +160,22 @@ document.addEventListener("DOMContentLoaded", function () {
             );
             rentStartDate.setHours(0, 0, 0, 0);
 
+            // Parse rent_end date (format: m/d/Y from backend)
+            const rentEndParts = booking.rent_end.split("/");
+            const rentEndDate = new Date(
+                rentEndParts[2],
+                parseInt(rentEndParts[0]) - 1,
+                rentEndParts[1],
+            );
+            rentEndDate.setHours(0, 0, 0, 0);
+
             // Calculate 1 day before rent start
             const oneDayBefore = new Date(rentStartDate);
             oneDayBefore.setDate(oneDayBefore.getDate() - 1);
 
-            // Can start rental if today >= 1 day before AND today <= rent start day
+            // Can start rental if today >= 1 day before AND today <= rent end day
             const canStartByDate =
-                today >= oneDayBefore && today <= rentStartDate;
+                today >= oneDayBefore && today <= rentEndDate;
 
             const canStartRental =
                 booking.status === "approved" &&
@@ -170,9 +183,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     booking.payment_status === "fullpaid") &&
                 canStartByDate;
             const isOngoing = booking.status === "ongoing";
-            const canSendCustomerMessage = ["approved", "ongoing", "finished"].includes(
-                booking.status,
-            );
+            const canSendCustomerMessage = [
+                "approved",
+                "ongoing",
+                "finished",
+            ].includes(booking.status);
 
             notesTextarea.disabled = !isPending;
             customerMessageGroup.style.display = canSendCustomerMessage
@@ -372,7 +387,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("Message sent to customer.");
                     customerMessageTextarea.value = "";
                 } else {
-                    alert("Error: " + (data.message || "Unable to send message."));
+                    alert(
+                        "Error: " + (data.message || "Unable to send message."),
+                    );
                 }
             })
             .catch((error) => {

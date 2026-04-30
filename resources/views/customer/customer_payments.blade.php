@@ -122,6 +122,13 @@
                 </div>
             @endforelse
         </div>
+
+        {{-- Pagination --}}
+        @if($payments->hasPages())
+            <div class="pagination-wrapper">
+                {{ $payments->links('vendor.pagination.custom') }}
+            </div>
+        @endif
     </div>
 
     <script>
