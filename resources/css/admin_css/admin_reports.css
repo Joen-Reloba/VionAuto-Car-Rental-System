@@ -38,7 +38,7 @@
 
 .filter-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr auto;
+    grid-template-columns: 1fr 1fr auto;
     gap: 16px;
     align-items: end;
 }
@@ -126,7 +126,7 @@
 /* ---- Stats Grid ---- */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
     margin-bottom: 20px;
 }
@@ -137,10 +137,20 @@
     border-radius: 10px;
     padding: 16px 18px;
     transition: box-shadow 0.15s;
+    overflow: visible;
 }
 
 .stat-card:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.stat-card {
+    overflow: visible; /* change from default */
+}
+
+.stat-badge {
+    white-space: normal; /* allow wrapping */
+    text-align: center;
 }
 
 .stat-icon {

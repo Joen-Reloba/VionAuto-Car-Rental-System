@@ -32,6 +32,28 @@
         <label for="password">Password *</label>
         <input type="password" id="password" name="password" required>
     </div>
+    <div class="form-group">
+        <label for="role">Role *</label>
+        <select id="role" name="role" required>
+            <option value="">-- Select Role --</option>
+            <option value="admin">Admin</option>
+            <option value="staff">Staff</option>
+        </select>
+    </div>
+    <div id="staffFields" style="display: none;">
+        <div class="form-group">
+            <label for="employeeNo">Employee Number *</label>
+            <input type="text" id="employeeNo" name="employee_no">
+        </div>
+        <div class="form-group">
+            <label for="position">Position</label>
+            <input type="text" id="position" name="position">
+        </div>
+        <div class="form-group">
+            <label for="hiredAt">Hired Date</label>
+            <input type="date" id="hiredAt" name="hired_at">
+        </div>
+    </div>
     <div class="modal-footer">
         <button type="button" class="btn-secondary" onclick="closeAddModal()">Cancel</button>
         <button type="submit" class="btn-primary">Create User</button>

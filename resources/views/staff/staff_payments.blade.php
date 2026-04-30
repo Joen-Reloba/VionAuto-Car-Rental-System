@@ -2,7 +2,7 @@
 
 @section('styles')
    @vite(['resources/css/staff_css/staff_payments.css'])
-
+@endsection
 @section('content')
 <div class="payment-page">
     <div class="page-header">
