@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    @vite(['resources/css/auth.css'])
     <title>Login</title>
+
+    <style>
+        .bg {
+            background-image: url("{{ asset('assets/images/car-rental-bg2.jpg') }}");
+        }
+    </style>
 </head>
 <body>
 
  <body>
-    <div class="bg"></div>
+    <div class="bg">
+    </div>
 
     <!-- Content on top -->
     <div class="container">

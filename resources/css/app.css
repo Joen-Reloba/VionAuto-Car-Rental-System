@@ -1,39 +1,54 @@
-/* Admin */
-@import "./admin_css/admin_global.css";
-@import "./admin_css/admin_dashboard.css";
-@import "./admin_css/admin_users.css";
-@import "./admin_css/admin_reports.css";
-@import "./admin_css/admin_customers.css";
+/* ============================================================
+   app.css  — GLOBAL ONLY
+   This file contains only truly shared globals:
+   - CSS custom properties (design tokens)
+   - Base reset for non-admin/staff pages (landing, auth, customer)
+   - Landing page + customer navbar styles
 
-/* Staff */
-@import "./staff_css/staff_global.css";
-@import "./staff_css/staff_customers.css";
-@import "./staff_css/staff_bookings.css";
-@import "./staff_css/staff_vehicles.css";
-@import "./staff_css/staff_payment.css";
-@import "./staff_css/staff_add_vehicle.css";
-@import "./staff_css/staff_update_vehicle.css";
+   Admin pages load: admin_global.css + their page CSS via @vite
+   Staff pages load:  staff_global.css + their page CSS via @vite
+   Customer/landing pages continue to load this file.
+   ============================================================ */
 
-/* Customer */
-@import "./customer_css/booking_confirmation.css";
-@import "./customer_css/browse_all_vehicles.css";
-@import "./customer_css/customer_bookings.css";
-@import "./customer_css/customer_payments.css";
-@import "./customer_css/customer_profile.css";
-@import "./customer_css/customer_registration.css";
-@import "./customer_css/view_vehicle.css";
-
-@import "./auth.css";
-@import "./landing.css";
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans:
-        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+/* ── Global Reset (for customer/landing pages only) ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ── Design Tokens ── */
+:root {
+    --primary-purple: #8a2be2;
+    --dark-purple: #4b0082;
+    --brand-purple: #7c3aed;
+    --light-purple: #f0e6ff;
+    --gray-light: #f5f5f5;
+    --gray-dark: #333;
+    --gray-medium: #666;
+    --border-color: #e0e0e0;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* ============================================================
+   NOTE TO DEVELOPERS:
+   Page-specific CSS is loaded per layout via @vite() in blade:
+
+   Admin layout   → loads admin_global.css + per-page admin CSS
+   Staff layout   → loads staff_global.css + per-page staff CSS
+   Customer pages → load this file + their individual CSS files
+   Landing page   → loads landing.css (already done in landing blade)
+
+   DO NOT re-add @import statements for admin/staff CSS here.
+   That was the source of all cascade conflicts.
+   ============================================================ */

@@ -16,6 +16,8 @@ function toggleNotificationsDropdown() {
 
 // Load and display notifications
 function loadNotifications() {
+    if (!document.getElementById("notificationsList")) return;
+
     fetch("/customer/notifications")
         .then((response) => response.json())
         .then((data) => {
@@ -147,7 +149,9 @@ document.addEventListener("click", function (event) {
 
 // Load notifications on page load
 document.addEventListener("DOMContentLoaded", function () {
-    loadNotifications();
-    // Refresh notifications every 30 seconds
-    setInterval(loadNotifications, 30000);
+    // Only load if user is logged in (notifications element exists)
+    if (document.getElementById("notificationsList")) {
+        loadNotifications();
+        setInterval(loadNotifications, 30000);
+    }
 });

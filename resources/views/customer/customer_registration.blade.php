@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  @vite(['resources/css/customer_css/customer_registration.css'])
+ @vite(['resources/css/auth.css', 'resources/css/customer_css/customer_registration.css'])
+    
+    <style>
+        .bg {
+            background-image: url("{{ asset('assets/images/car-rental-bg2.jpg') }}");
+        }
+    </style>
+
     <title>Customer Registration</title>
 </head>
+
 <body>
     <div class="bg"></div>
 

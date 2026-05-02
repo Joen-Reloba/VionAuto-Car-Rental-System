@@ -1,7 +1,7 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-  @vite(['resources/css/staff_css/staff_bookings.css'])
+    @vite('resources/css/staff_css/staff_bookings.css')
 @endsection
 
 @section('content')
@@ -209,33 +209,37 @@
 
                 {{-- Notes Section --}}
                 <div class="details-group">
-                    <h3 class="group-title">Customer Message</h3>
-                    <textarea 
-                        id="modalNotes" 
-                        class="notes-textarea" 
+                    <h3 class="group-title">Staff Note</h3>
+                    <textarea
+                        id="modalNotes"
+                        class="notes-textarea"
                         placeholder="Add a message that will be shown to the customer notification..."
                         rows="4"></textarea>
                 </div>
+            </div>
+        </div>
 
-                <div class="details-group" id="customerMessageGroup">
-                    <h3 class="group-title">Send Customer Message</h3>
-                    <textarea
-                        id="customerMessage"
-                        class="notes-textarea"
-                        placeholder="Send a new message to the customer..."
-                        rows="3"></textarea>
-                    <button class="action-btn send-message-btn" id="sendCustomerMessageBtn">Send Message</button>
-                </div>
+        {{-- Fixed Action Buttons --}}
+        <div class="modal-footer">
+            <div class="details-group" id="customerMessageGroup">
+                <h3 class="group-title">Send Customer Message</h3>
+                <textarea
+                    id="customerMessage"
+                    class="notes-textarea"
+                    placeholder="Send a new message to the customer..."
+                    rows="3"></textarea>
+                <button class="action-btn send-message-btn" id="sendCustomerMessageBtn">Send Message</button>
+            </div>
 
-                <div class="modal-action-buttons">
-                    <button class="action-btn approve-btn" id="approveBtn">Approve</button>
-                    <button class="action-btn reject-btn" id="rejectBtn">Reject</button>
-                    <button class="action-btn start-rental-btn" id="startRentalBtn">Start Rental</button>
-                    <button class="action-btn return-vehicle-btn" id="returnVehicleBtn">Return Vehicle</button>
-                </div>
+            <div class="modal-action-buttons">
+                <button class="action-btn approve-btn" id="approveBtn">Approve</button>
+                <button class="action-btn reject-btn" id="rejectBtn">Reject</button>
+                <button class="action-btn start-rental-btn" id="startRentalBtn">Start Rental</button>
+                <button class="action-btn return-vehicle-btn" id="returnVehicleBtn">Return Vehicle</button>
             </div>
         </div>
     </div>
+    
 </div>
 
 {{-- Pass data to JS --}}

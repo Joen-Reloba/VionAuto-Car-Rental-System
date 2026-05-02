@@ -1,6 +1,51 @@
 {
+  "resources/css/admin_css/admin_customers.css": {
+    "file": "assets/admin_customers-DoX1ciwQ.css",
+    "name": "admin_customers",
+    "names": [
+      "admin_customers.css"
+    ],
+    "src": "resources/css/admin_css/admin_customers.css",
+    "isEntry": true
+  },
+  "resources/css/admin_css/admin_dashboard.css": {
+    "file": "assets/admin_dashboard-DU0wsq-a.css",
+    "name": "admin_dashboard",
+    "names": [
+      "admin_dashboard.css"
+    ],
+    "src": "resources/css/admin_css/admin_dashboard.css",
+    "isEntry": true
+  },
+  "resources/css/admin_css/admin_global.css": {
+    "file": "assets/admin_global-CcDBk2Zs.css",
+    "name": "admin_global",
+    "names": [
+      "admin_global.css"
+    ],
+    "src": "resources/css/admin_css/admin_global.css",
+    "isEntry": true
+  },
+  "resources/css/admin_css/admin_reports.css": {
+    "file": "assets/admin_reports-DUpFDqzB.css",
+    "name": "admin_reports",
+    "names": [
+      "admin_reports.css"
+    ],
+    "src": "resources/css/admin_css/admin_reports.css",
+    "isEntry": true
+  },
+  "resources/css/admin_css/admin_users.css": {
+    "file": "assets/admin_users-BJaC5Nuq.css",
+    "name": "admin_users",
+    "names": [
+      "admin_users.css"
+    ],
+    "src": "resources/css/admin_css/admin_users.css",
+    "isEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-BEZpmW4h.css",
+    "file": "assets/app-91yh4Go4.css",
     "name": "app",
     "names": [
       "app.css"
@@ -8,8 +53,152 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/css/auth.css": {
+    "file": "assets/auth-s8GIQXSJ.css",
+    "name": "auth",
+    "names": [
+      "auth.css"
+    ],
+    "src": "resources/css/auth.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/booking_confirmation.css": {
+    "file": "assets/booking_confirmation-udf8y-hD.css",
+    "name": "booking_confirmation",
+    "names": [
+      "booking_confirmation.css"
+    ],
+    "src": "resources/css/customer_css/booking_confirmation.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/browse_all_vehicles.css": {
+    "file": "assets/browse_all_vehicles-DrpMGdR_.css",
+    "name": "browse_all_vehicles",
+    "names": [
+      "browse_all_vehicles.css"
+    ],
+    "src": "resources/css/customer_css/browse_all_vehicles.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/customer_bookings.css": {
+    "file": "assets/customer_bookings-6jv2g1QG.css",
+    "name": "customer_bookings",
+    "names": [
+      "customer_bookings.css"
+    ],
+    "src": "resources/css/customer_css/customer_bookings.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/customer_payments.css": {
+    "file": "assets/customer_payments-CLcr2UyT.css",
+    "name": "customer_payments",
+    "names": [
+      "customer_payments.css"
+    ],
+    "src": "resources/css/customer_css/customer_payments.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/customer_profile.css": {
+    "file": "assets/customer_profile-CqaAyzH8.css",
+    "name": "customer_profile",
+    "names": [
+      "customer_profile.css"
+    ],
+    "src": "resources/css/customer_css/customer_profile.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/customer_registration.css": {
+    "file": "assets/customer_registration-BvcoMt2k.css",
+    "name": "customer_registration",
+    "names": [
+      "customer_registration.css"
+    ],
+    "src": "resources/css/customer_css/customer_registration.css",
+    "isEntry": true
+  },
+  "resources/css/customer_css/view_vehicle.css": {
+    "file": "assets/view_vehicle-Xf1s29UB.css",
+    "name": "view_vehicle",
+    "names": [
+      "view_vehicle.css"
+    ],
+    "src": "resources/css/customer_css/view_vehicle.css",
+    "isEntry": true
+  },
+  "resources/css/landing.css": {
+    "file": "assets/landing-hHsm3QL1.css",
+    "name": "landing",
+    "names": [
+      "landing.css"
+    ],
+    "src": "resources/css/landing.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_add_vehicle.css": {
+    "file": "assets/staff_add_vehicle-BxF-oEpo.css",
+    "name": "staff_add_vehicle",
+    "names": [
+      "staff_add_vehicle.css"
+    ],
+    "src": "resources/css/staff_css/staff_add_vehicle.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_bookings.css": {
+    "file": "assets/staff_bookings-GGaV8NpO.css",
+    "name": "staff_bookings",
+    "names": [
+      "staff_bookings.css"
+    ],
+    "src": "resources/css/staff_css/staff_bookings.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_customers.css": {
+    "file": "assets/staff_customers-CZjxp_OL.css",
+    "name": "staff_customers",
+    "names": [
+      "staff_customers.css"
+    ],
+    "src": "resources/css/staff_css/staff_customers.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_global.css": {
+    "file": "assets/staff_global-6iL5A7VQ.css",
+    "name": "staff_global",
+    "names": [
+      "staff_global.css"
+    ],
+    "src": "resources/css/staff_css/staff_global.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_payment.css": {
+    "file": "assets/staff_payment-Bp4exs2T.css",
+    "name": "staff_payment",
+    "names": [
+      "staff_payment.css"
+    ],
+    "src": "resources/css/staff_css/staff_payment.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_update_vehicle.css": {
+    "file": "assets/staff_update_vehicle-Cf1RRqxV.css",
+    "name": "staff_update_vehicle",
+    "names": [
+      "staff_update_vehicle.css"
+    ],
+    "src": "resources/css/staff_css/staff_update_vehicle.css",
+    "isEntry": true
+  },
+  "resources/css/staff_css/staff_vehicles.css": {
+    "file": "assets/staff_vehicles-BM7QypF1.css",
+    "name": "staff_vehicles",
+    "names": [
+      "staff_vehicles.css"
+    ],
+    "src": "resources/css/staff_css/staff_vehicles.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app-BU6mFzGd.js",
+    "file": "assets/app-CDtWfzGd.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

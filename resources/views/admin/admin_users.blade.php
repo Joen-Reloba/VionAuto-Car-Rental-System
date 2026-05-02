@@ -1,7 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('styles')
-   @vite(['resources/css/admin_css/admin_users.css'])
+    @vite('resources/css/admin_css/admin_users.css')
 @endsection
 
 @section('content')
@@ -55,7 +55,7 @@
                             <td><span class="role-pill role-{{ strtolower($user->role) }}">{{ ucfirst($user->role) }}</span></td>
                             <td><span class="status-pill {{ $user->status }}">{{ $user->status === 'active' ? '✔ Active' : 'Inactive' }}</span></td>
                             <td class="action-cell">
-                                <button class="action-btn view-btn" title="View" onclick="viewUser('{{ $user->user_ID }}')">
+                               <button class="action-btn view-btn" title="View" data-id="{{ $user->user_ID }}">
                                     <img src="{{ asset('assets/icons/view.png') }}" alt="View">
                                 </button>
                                 @if($user->role !== 'customer')
@@ -81,6 +81,9 @@
 
     {{-- Edit User Modal --}}
     @include('admin.admin_update_user')
+
+    {{-- Add User Modal --}}
+    @include('admin.admin_add_user')
 
     {{-- User Detail Modal --}}
     <div id="userModal" class="modal modal-hidden">
@@ -177,245 +180,6 @@
         </div>
     </div>
 
-    <script>
-        function viewUser(userId) {
-            fetch(`/admin/users/${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const user = data.user;
-                    const staff = data.staff;
-                    const customer = data.customer;
-
-                    // Basic info
-                    document.getElementById('modalUserId').textContent = user.user_ID;
-                    document.getElementById('modalName').textContent = data.full_name;
-                    document.getElementById('modalPhone').textContent = user.phone_number || '-';
-                    document.getElementById('modalEmail').textContent = user.email || '-';
-                    document.getElementById('modalUsername').textContent = user.username || '-';
-                    document.getElementById('modalRole').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
-                    document.getElementById('modalStatus').textContent = user.status.charAt(0).toUpperCase() + user.status.slice(1);
-
-                    // Hide/show staff section
-                    const staffSection = document.getElementById('staffSection');
-                    const customerSection = document.getElementById('customerSection');
-                    
-                    if (user.role === 'staff' && staff) {
-                        staffSection.style.display = 'block';
-                        document.getElementById('modalEmployeeNo').textContent = staff.employee_no || '-';
-                        document.getElementById('modalPosition').textContent = staff.position || '-';
-                        document.getElementById('modalHiredAt').textContent = staff.hired_at ? new Date(staff.hired_at).toLocaleDateString() : '-';
-                        customerSection.style.display = 'none';
-                    } else if (user.role === 'customer' && customer) {
-                        customerSection.style.display = 'block';
-                        document.getElementById('modalBirthday').textContent = customer.birthday || '-';
-                        document.getElementById('modalAddress').textContent = customer.address || '-';
-                        document.getElementById('modalLicenseNo').textContent = customer.license_no || '-';
-                        document.getElementById('modalLicenseExpiry').textContent = customer.license_expiry || '-';
-                        const validIdImg = document.getElementById('modalValidId');
-                        if (customer.valid_ID) {
-                            validIdImg.src = '/assets/images/valid-ids/' + customer.valid_ID;
-                            validIdImg.style.display = 'block';
-                        } else {
-                            validIdImg.src = '';
-                            validIdImg.style.display = 'none';
-                        }
-                        staffSection.style.display = 'none';
-                    } else {
-                        staffSection.style.display = 'none';
-                        customerSection.style.display = 'none';
-                    }
-
-                    const modal = document.getElementById('userModal');
-                    modal.classList.remove('modal-hidden');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error loading user details');
-                });
-        }
-
-        function closeUserModal() {
-            const modal = document.getElementById('userModal');
-            modal.classList.add('modal-hidden');
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('userModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeUserModal();
-            }
-        });
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('keyup', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('.user-table tbody tr');
-            
-            rows.forEach(row => {
-                if (row.textContent.toLowerCase().includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-
-        // Edit button functionality
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const userId = this.getAttribute('data-id');
-                editUser(userId);
-            });
-        });
-
-        function editUser(userId) {
-            fetch(`/admin/users/${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const user = data.user;
-                    
-                    // Populate form fields
-                    document.getElementById('editUserId').value = user.user_ID;
-                    document.getElementById('editFirstName').value = user.first_name || '';
-                    document.getElementById('editMiddleName').value = user.middle_name || '';
-                    document.getElementById('editLastName').value = user.last_name || '';
-                    document.getElementById('editUsername').value = user.username || '';
-                    document.getElementById('editEmail').value = user.email || '';
-                    document.getElementById('editPhone').value = user.phone_number || '';
-                    document.getElementById('editPassword').value = '';
-                    document.getElementById('editRole').value = user.role || '';
-                    document.getElementById('editStatus').value = user.status || '';
-                    
-                    const modal = document.getElementById('editUserModal');
-                    modal.classList.remove('modal-hidden');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error loading user details');
-                });
-        }
-
-        function closeEditModal() {
-            const modal = document.getElementById('editUserModal');
-            modal.classList.add('modal-hidden');
-        }
-
-        // Handle edit form submission
-        document.getElementById('editUserForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userId = document.getElementById('editUserId').value;
-            const form = document.getElementById('editUserForm');
-            const csrfToken = form.querySelector('input[name="_token"]').value;
-            
-            const formData = new FormData(form);
-            
-            fetch(`/admin/users/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('User updated successfully');
-                    closeEditModal();
-                    location.reload();
-                } else {
-                    alert('Error: ' + (data.message || 'Failed to update user'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error updating user: ' + error.message);
-            });
-        });
-
-        // Close modal when clicking outside
-        document.getElementById('editUserModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditModal();
-            }
-        });
-
-        // Role filter
-        document.getElementById('roleFilter').addEventListener('change', function(e) {
-            const selectedRole = e.target.value;
-            const rows = document.querySelectorAll('.user-table tbody tr');
-            
-            rows.forEach(row => {
-                const rowRole = row.getAttribute('data-role');
-                if (selectedRole === 'all' || rowRole === selectedRole) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-
-        // Delete button functionality
-        let currentDeleteUserId = null;
-
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const userId = this.getAttribute('data-id');
-                const userRow = this.closest('tr');
-                const userName = userRow.querySelector('td:nth-child(2)').textContent;
-                
-                currentDeleteUserId = userId;
-                document.getElementById('deleteUserName').textContent = userName;
-                document.getElementById('deleteConfirmModal').classList.remove('modal-hidden');
-            });
-        });
-
-        async function deleteUser() {
-            if (!currentDeleteUserId) return;
-
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
-                             document.querySelector('input[name="_token"]')?.value;
-            
-            try {
-                const response = await fetch(`/admin/users/${currentDeleteUserId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    alert('✅ ' + data.message);
-                    closeDeleteModal();
-                    location.reload();
-                } else {
-                    alert('❌ ' + (data.message || 'Failed to delete user'));
-                    closeDeleteModal();
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Error deleting user: ' + error.message);
-                closeDeleteModal();
-            }
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteConfirmModal').classList.add('modal-hidden');
-            currentDeleteUserId = null;
-        }
-
-        // Close delete modal when clicking outside
-        document.getElementById('deleteConfirmModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeDeleteModal();
-            }
-        });
-    </script>
-
     {{-- Delete Confirmation Modal --}}
     <div id="deleteConfirmModal" class="modal modal-hidden">
         <div class="modal-content">
@@ -437,28 +201,9 @@
         </div>
     </div>
 
-    <script>
-        // Attach button listeners AFTER buttons exist in DOM
-        setTimeout(function() {
-            const cancelBtn = document.getElementById('cancelDeleteBtn');
-            const confirmBtn = document.getElementById('confirmDeleteBtn');
-            
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    closeDeleteModal();
-                });
-            }
-            
-            if (confirmBtn) {
-                confirmBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    deleteUser();
-                });
-            }
-        }, 100);
-    </script>
+   @section('scripts')
+    <script src="{{ asset('javascripts/admin_js/admin_user.js') }}"></script>
+    @endsection
 
 @endsection
+

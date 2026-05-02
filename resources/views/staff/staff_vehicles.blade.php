@@ -1,7 +1,7 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-    @vite(['resources/css/staff_css/staff_vehicles.css'])
+    @vite('resources/css/staff_css/staff_vehicles.css')
 @endsection
 
 @section('content')
@@ -53,9 +53,7 @@
         </div>
     @endif
 
-</div>
-
-{{-- ── Vehicle Detail Modal ── --}}
+    {{-- ── Vehicle Detail Modal ── --}}
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
         <button class="modal-close" id="modalClose">&times;</button>
@@ -116,6 +114,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+</div>
+
 
 {{-- ── Pass Laravel data to JS ── --}}
 <script>

@@ -1,7 +1,7 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-    @vite(['resources/css/staff_css/staff_customers.css'])
+    @vite('resources/css/staff_css/staff_customers.css')
 @endsection
 
 @section('content')
@@ -16,7 +16,6 @@
                     <div class="search-wrap">
                         <input type="text" class="search-input" placeholder="Search by name or ID..." id="searchInput">
                     </div>
-                    <button class="add-btn">+ Add User</button>
                 </div>
 
                 <div class="table-wrapper">

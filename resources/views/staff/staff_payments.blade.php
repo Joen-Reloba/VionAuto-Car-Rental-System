@@ -1,8 +1,9 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-   @vite(['resources/css/staff_css/staff_payments.css'])
+    @vite('resources/css/staff_css/staff_payment.css')
 @endsection
+
 @section('content')
 <div class="payment-page">
     <div class="page-header">
@@ -69,8 +70,8 @@
             </div>
         @endif
     </div>
-</div>
 
+    
 {{-- Payment Verification Modal --}}
 <div class="modal-overlay" id="paymentModalOverlay">
     <div class="payment-modal">
@@ -144,6 +145,10 @@
         </div>
     </div>
 </div>
+
+
+</div>
+
 
 {{-- Pass data to JS --}}
 <meta name="csrf-token" content="{{ csrf_token() }}">

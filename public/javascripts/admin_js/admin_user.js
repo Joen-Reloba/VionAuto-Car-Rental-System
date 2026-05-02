@@ -1,222 +1,212 @@
-// User Management Modal Logic
-const csrfToken =
-    document
-        .querySelector('meta[name="csrf-token"]')
-        ?.getAttribute("content") ||
-    document.querySelector('input[name="_token"]')?.value;
-let currentDeleteId = null;
-let currentDeleteType = null;
+const csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute("content");
+let currentDeleteUserId = null;
 
-// ===== MODAL FUNCTIONS =====
+// ===== HELPERS =====
+function openModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("modal-hidden");
+}
+
+function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("modal-hidden");
+}
+
+function closeAddModal() {
+    closeModal("addUserModal");
+    const form = document.getElementById("addUserForm");
+    if (form) form.reset();
+    const staffFields = document.getElementById("staffFields");
+    if (staffFields) staffFields.style.display = "none";
+}
+
+function closeEditModal() {
+    closeModal("editUserModal");
+}
+
+function closeUserModal() {
+    closeModal("userModal");
+}
+
+function closeDeleteModal() {
+    closeModal("deleteConfirmModal");
+    currentDeleteUserId = null;
+}
+
+// ===== SEARCH & FILTER =====
 function filterTable() {
-    const searchTerm = document
-        .getElementById("searchInput")
-        .value.toLowerCase();
-    const roleFilter = document.getElementById("roleFilter").value;
-    const rows = document.querySelectorAll(
-        "#userTable tbody tr:not(#emptyRow)",
-    );
-    let visibleCount = 0;
+    const searchTerm =
+        document.getElementById("searchInput")?.value.toLowerCase() || "";
+    const roleFilter = document.getElementById("roleFilter")?.value || "all";
+    const rows = document.querySelectorAll(".user-table tbody tr");
 
     rows.forEach((row) => {
         const searchData = row.getAttribute("data-search") || "";
         const role = row.getAttribute("data-role") || "";
-        const matchesSearch = searchData.includes(searchTerm);
+        const matchesSearch =
+            searchData.includes(searchTerm) ||
+            row.textContent.toLowerCase().includes(searchTerm);
         const matchesRole = roleFilter === "all" || role === roleFilter;
-
-        if (matchesSearch && matchesRole) {
-            row.style.display = "";
-            visibleCount++;
-        } else {
-            row.style.display = "none";
-        }
+        row.style.display = matchesSearch && matchesRole ? "" : "none";
     });
-
-    document.getElementById("emptyRow").style.display =
-        visibleCount === 0 ? "" : "none";
 }
 
-function closeAddModal() {
-    document.getElementById("addUserModal").classList.remove("show");
-}
-
-function closeViewModal() {
-    document.getElementById("viewUserModal").classList.remove("show");
-}
-
-function closeEditModal() {
-    document.getElementById("editUserModal").classList.remove("show");
-}
-
-function closeDeleteModal() {
-    document.getElementById("deleteConfirmModal").classList.remove("show");
-    currentDeleteId = null;
-    currentDeleteType = null;
-}
-
-async function confirmDelete() {
-    if (!currentDeleteId) return;
-
-    try {
-        const response = await fetch(`/admin/users/${currentDeleteId}`, {
-            method: "DELETE",
-            headers: {
-                "X-CSRF-Token": csrfToken,
-            },
+// ===== ADD USER =====
+function initAddUser() {
+    const addBtn = document.getElementById("addUserBtn");
+    if (addBtn) {
+        addBtn.addEventListener("click", function () {
+            const form = document.getElementById("addUserForm");
+            if (form) form.reset();
+            const staffFields = document.getElementById("staffFields");
+            if (staffFields) staffFields.style.display = "none";
+            openModal("addUserModal");
         });
-
-        const data = await response.json();
-
-        if (data.success) {
-            alert("✅ " + data.message);
-            location.reload();
-        } else {
-            alert("❌ " + (data.message || "Failed to delete user"));
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Error deleting user");
     }
 
-    closeDeleteModal();
-}
-
-// ===== INITIALIZE ON DOM READY =====
-document.addEventListener("DOMContentLoaded", function () {
-    // ===== SEARCH & FILTER =====
-    document
-        .getElementById("searchInput")
-        .addEventListener("keyup", function () {
-            filterTable();
+    const roleSelect = document.getElementById("role");
+    if (roleSelect) {
+        roleSelect.addEventListener("change", function () {
+            const staffFields = document.getElementById("staffFields");
+            const employeeNo = document.getElementById("employeeNo");
+            if (staffFields)
+                staffFields.style.display =
+                    this.value === "staff" ? "block" : "none";
+            if (employeeNo) employeeNo.required = this.value === "staff";
         });
+    }
 
-    document
-        .getElementById("roleFilter")
-        .addEventListener("change", function () {
-            filterTable();
-        });
-
-    // ===== ADD USER =====
-    document
-        .getElementById("addUserBtn")
-        .addEventListener("click", function () {
-            document.getElementById("addUserForm").reset();
-            document.getElementById("addUserModal").classList.add("show");
-            document.getElementById("staffFields").style.display = "none"; // Hide staff fields on modal open
-        });
-
-    // Toggle staff-specific fields based on role selection
-    document.getElementById("role").addEventListener("change", function () {
-        const staffFields = document.getElementById("staffFields");
-        const employeeNo = document.getElementById("employeeNo");
-
-        if (this.value === "staff") {
-            staffFields.style.display = "block";
-            employeeNo.required = true;
-        } else {
-            staffFields.style.display = "none";
-            employeeNo.required = false;
-        }
-    });
-
-    document
-        .getElementById("addUserForm")
-        .addEventListener("submit", async function (e) {
+    const addForm = document.getElementById("addUserForm");
+    if (addForm) {
+        addForm.addEventListener("submit", async function (e) {
             e.preventDefault();
-
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-
-            // Log CSRF token and form data for debugging
-            console.log("CSRF Token:", csrfToken);
-            console.log("Form Data:", data);
 
             try {
                 const response = await fetch("/admin/users", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-Token": csrfToken,
+                        "X-CSRF-TOKEN": csrfToken,
+                        Accept: "application/json",
                     },
-                    body: JSON.stringify(data),
+                    body: new FormData(this),
                 });
 
-                console.log("Response Status:", response.status);
-
-                // Check if response is JSON
                 const contentType = response.headers.get("content-type");
                 if (!contentType || !contentType.includes("application/json")) {
-                    const htmlText = await response.text();
+                    const text = await response.text();
                     console.error(
-                        "Server returned non-JSON response:",
-                        htmlText.substring(0, 1000),
+                        "Non-JSON response:",
+                        text.substring(0, 1000),
                     );
-                    alert(
-                        "Server error: " +
-                            response.status +
-                            " " +
-                            response.statusText,
-                    );
+                    alert("Server error: " + response.status);
                     return;
                 }
 
-                const responseData = await response.json();
-                console.log("Response Data:", responseData);
+                const data = await response.json();
+                console.log("Response:", data);
 
-                if (responseData.success) {
-                    alert(responseData.message);
+                if (data.success) {
+                    alert("✅ User created successfully");
+                    closeAddModal();
                     location.reload();
                 } else {
-                    const errorMsg =
-                        responseData.message || "Failed to create user";
-                    const errors = responseData.errors
-                        ? "\n\nValidation errors:\n" +
-                          JSON.stringify(responseData.errors, null, 2)
+                    const errors = data.errors
+                        ? "\n\n" + Object.values(data.errors).flat().join("\n")
                         : "";
-                    alert("Error: " + errorMsg + errors);
+                    alert(
+                        "❌ " +
+                            (data.message || "Failed to create user") +
+                            errors,
+                    );
                 }
             } catch (error) {
-                console.error("Error creating user:", error);
-                alert("Error creating user: " + error.message);
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
             }
         });
+    }
 
-    // ===== VIEW USER =====
+    const addModal = document.getElementById("addUserModal");
+    if (addModal) {
+        addModal.addEventListener("click", function (e) {
+            if (e.target === this) closeAddModal();
+        });
+    }
+}
+
+// ===== VIEW USER =====
+function initViewUser() {
     document.querySelectorAll(".view-btn").forEach((btn) => {
         btn.addEventListener("click", async function () {
-            const userId = this.getAttribute("data-id");
+            const userId =
+                this.getAttribute("data-id") ||
+                this.closest("tr")?.getAttribute("data-user-id");
 
             try {
                 const response = await fetch(`/admin/users/${userId}`);
                 const data = await response.json();
                 const user = data.user;
-                const fullName = data.full_name;
+                const staff = data.staff;
+                const customer = data.customer;
 
-                const content = `
-                    <div class="field-group">
-                        <span class="field-label">ID</span>
-                        <div class="field-value">${user.user_ID}</div>
-                    </div>
-                    <div class="field-group">
-                        <span class="field-label">Full Name</span>
-                        <div class="field-value">${fullName}</div>
-                    </div>
-                    <div class="field-group">
-                        <span class="field-label">Email</span>
-                        <div class="field-value">${user.email}</div>
-                    </div>
-                    <div class="field-group">
-                        <span class="field-label">Phone</span>
-                        <div class="field-value">${user.phone_number}</div>
-                    </div>
-                    <div class="field-group">
-                        <span class="field-label">Created At</span>
-                        <div class="field-value">${new Date(user.created_at).toLocaleDateString()}</div>
-                    </div>
-                `;
+                document.getElementById("modalUserId").textContent =
+                    user.user_ID;
+                document.getElementById("modalName").textContent =
+                    data.full_name;
+                document.getElementById("modalPhone").textContent =
+                    user.phone_number || "-";
+                document.getElementById("modalEmail").textContent =
+                    user.email || "-";
+                document.getElementById("modalUsername").textContent =
+                    user.username || "-";
+                document.getElementById("modalRole").textContent =
+                    user.role.charAt(0).toUpperCase() + user.role.slice(1);
+                document.getElementById("modalStatus").textContent =
+                    user.status.charAt(0).toUpperCase() + user.status.slice(1);
 
-                document.getElementById("viewUserContent").innerHTML = content;
-                document.getElementById("viewUserModal").classList.add("show");
+                const staffSection = document.getElementById("staffSection");
+                const customerSection =
+                    document.getElementById("customerSection");
+
+                if (user.role === "staff" && staff) {
+                    staffSection.style.display = "block";
+                    document.getElementById("modalEmployeeNo").textContent =
+                        staff.employee_no || "-";
+                    document.getElementById("modalPosition").textContent =
+                        staff.position || "-";
+                    document.getElementById("modalHiredAt").textContent =
+                        staff.hired_at
+                            ? new Date(staff.hired_at).toLocaleDateString()
+                            : "-";
+                    customerSection.style.display = "none";
+                } else if (user.role === "customer" && customer) {
+                    customerSection.style.display = "block";
+                    document.getElementById("modalBirthday").textContent =
+                        customer.birthday || "-";
+                    document.getElementById("modalAddress").textContent =
+                        customer.address || "-";
+                    document.getElementById("modalLicenseNo").textContent =
+                        customer.license_no || "-";
+                    document.getElementById("modalLicenseExpiry").textContent =
+                        customer.license_expiry || "-";
+                    const validIdImg = document.getElementById("modalValidId");
+                    if (customer.valid_ID) {
+                        validIdImg.src =
+                            "/assets/images/valid-ids/" + customer.valid_ID;
+                        validIdImg.style.display = "block";
+                    } else {
+                        validIdImg.src = "";
+                        validIdImg.style.display = "none";
+                    }
+                    staffSection.style.display = "none";
+                } else {
+                    staffSection.style.display = "none";
+                    customerSection.style.display = "none";
+                }
+
+                openModal("userModal");
             } catch (error) {
                 console.error("Error:", error);
                 alert("Error loading user details");
@@ -224,49 +214,60 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // ===== EDIT USER =====
+    const userModal = document.getElementById("userModal");
+    if (userModal) {
+        userModal.addEventListener("click", function (e) {
+            if (e.target === this) closeUserModal();
+        });
+    }
+}
+
+// ===== EDIT USER =====
+function initEditUser() {
     document.querySelectorAll(".edit-btn").forEach((btn) => {
         btn.addEventListener("click", async function () {
             const userId = this.getAttribute("data-id");
 
             try {
-                const userResponse = await fetch(`/admin/users/${userId}`);
-                const userData = await userResponse.json();
-                const user = userData.user;
+                const response = await fetch(`/admin/users/${userId}`);
+                const data = await response.json();
+                const user = data.user;
 
                 document.getElementById("editUserId").value = user.user_ID;
                 document.getElementById("editFirstName").value =
-                    user.first_name;
+                    user.first_name || "";
                 document.getElementById("editMiddleName").value =
                     user.middle_name || "";
-                document.getElementById("editLastName").value = user.last_name;
-                document.getElementById("editUsername").value = user.username;
-                document.getElementById("editEmail").value = user.email;
+                document.getElementById("editLastName").value =
+                    user.last_name || "";
+                document.getElementById("editUsername").value =
+                    user.username || "";
+                document.getElementById("editEmail").value = user.email || "";
+                document.getElementById("editPhone").value =
+                    user.phone_number || "";
+                document.getElementById("editPassword").value = "";
                 document.getElementById("editRole").value = user.role || "";
                 document.getElementById("editStatus").value = user.status || "";
-                document.getElementById("editPhone").value = user.phone_number;
-                document.getElementById("editPassword").value = "";
 
-                // Show/hide staff fields based on role
                 const editStaffFields =
                     document.getElementById("editStaffFields");
-                if (user.role === "staff") {
-                    editStaffFields.style.display = "block";
-                    // Load staff data
-                    const staff = userData.staff;
-                    if (staff) {
+                if (editStaffFields) {
+                    if (user.role === "staff" && data.staff) {
+                        editStaffFields.style.display = "block";
                         document.getElementById("editEmployeeNo").value =
-                            staff.employee_no || "";
+                            data.staff.employee_no || "";
                         document.getElementById("editPosition").value =
-                            staff.position || "";
-                        document.getElementById("editHiredAt").value =
-                            staff.hired_at ? staff.hired_at.split(" ")[0] : "";
+                            data.staff.position || "";
+                        document.getElementById("editHiredAt").value = data
+                            .staff.hired_at
+                            ? data.staff.hired_at.split(" ")[0]
+                            : "";
+                    } else {
+                        editStaffFields.style.display = "none";
                     }
-                } else {
-                    editStaffFields.style.display = "none";
                 }
 
-                document.getElementById("editUserModal").classList.add("show");
+                openModal("editUserModal");
             } catch (error) {
                 console.error("Error:", error);
                 alert("Error loading user");
@@ -274,90 +275,137 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Toggle staff fields in edit modal based on role selection
-    document.getElementById("editRole").addEventListener("change", function () {
-        const editStaffFields = document.getElementById("editStaffFields");
-        const editEmployeeNo = document.getElementById("editEmployeeNo");
+    const editRole = document.getElementById("editRole");
+    if (editRole) {
+        editRole.addEventListener("change", function () {
+            const editStaffFields = document.getElementById("editStaffFields");
+            const editEmployeeNo = document.getElementById("editEmployeeNo");
+            if (editStaffFields)
+                editStaffFields.style.display =
+                    this.value === "staff" ? "block" : "none";
+            if (editEmployeeNo)
+                editEmployeeNo.required = this.value === "staff";
+        });
+    }
 
-        if (this.value === "staff") {
-            editStaffFields.style.display = "block";
-            editEmployeeNo.required = true;
-        } else {
-            editStaffFields.style.display = "none";
-            editEmployeeNo.required = false;
-        }
-    });
-
-    document
-        .getElementById("editUserForm")
-        .addEventListener("submit", async function (e) {
+    const editForm = document.getElementById("editUserForm");
+    if (editForm) {
+        editForm.addEventListener("submit", async function (e) {
             e.preventDefault();
-
             const userId = document.getElementById("editUserId").value;
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
 
             try {
                 const response = await fetch(`/admin/users/${userId}`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-Token": csrfToken,
-                        "X-HTTP-Method-Override": "PUT",
+                        "X-CSRF-TOKEN": csrfToken,
+                        Accept: "application/json",
                     },
-                    body: JSON.stringify(data),
+                    body: new FormData(this),
                 });
 
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    const htmlText = await response.text();
-                    console.error(
-                        "Server returned non-JSON response:",
-                        htmlText.substring(0, 1000),
-                    );
-                    alert("Server error: " + response.status);
-                    return;
-                }
+                const data = await response.json();
 
-                const responseData = await response.json();
-
-                if (responseData.success) {
-                    alert(responseData.message);
+                if (data.success) {
+                    alert("✅ User updated successfully");
+                    closeEditModal();
                     location.reload();
                 } else {
-                    const errorMsg =
-                        responseData.message || "Failed to update user";
-                    const errors = responseData.errors
-                        ? "\n\nValidation errors:\n" +
-                          JSON.stringify(responseData.errors, null, 2)
+                    const errors = data.errors
+                        ? "\n\n" + Object.values(data.errors).flat().join("\n")
                         : "";
-                    alert("Error: " + errorMsg + errors);
+                    alert(
+                        "❌ " +
+                            (data.message || "Failed to update user") +
+                            errors,
+                    );
                 }
             } catch (error) {
-                console.error("Error updating user:", error);
-                alert("Error updating user: " + error.message);
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
             }
         });
+    }
 
-    // ===== DELETE CONFIRMATION =====
+    const editModal = document.getElementById("editUserModal");
+    if (editModal) {
+        editModal.addEventListener("click", function (e) {
+            if (e.target === this) closeEditModal();
+        });
+    }
+}
+
+// ===== DELETE USER =====
+function initDeleteUser() {
     document.querySelectorAll(".delete-btn").forEach((btn) => {
         btn.addEventListener("click", function () {
-            currentDeleteId = this.getAttribute("data-id");
-            currentDeleteType = this.getAttribute("data-type");
-            document.getElementById("deleteConfirmModal").classList.add("show");
+            const userRow = this.closest("tr");
+            currentDeleteUserId = this.getAttribute("data-id");
+            const nameEl = userRow?.querySelector("td:nth-child(2)");
+            const deleteUserName = document.getElementById("deleteUserName");
+            if (deleteUserName && nameEl)
+                deleteUserName.textContent = nameEl.textContent;
+            openModal("deleteConfirmModal");
         });
     });
 
-    // ===== CLOSE MODALS ON OUTSIDE CLICK =====
-    window.addEventListener("click", function (event) {
-        const addModal = document.getElementById("addUserModal");
-        const viewModal = document.getElementById("viewUserModal");
-        const editModal = document.getElementById("editUserModal");
-        const deleteModal = document.getElementById("deleteConfirmModal");
+    const cancelBtn = document.getElementById("cancelDeleteBtn");
+    if (cancelBtn) cancelBtn.addEventListener("click", closeDeleteModal);
 
-        if (event.target === addModal) closeAddModal();
-        if (event.target === viewModal) closeViewModal();
-        if (event.target === editModal) closeEditModal();
-        if (event.target === deleteModal) closeDeleteModal();
-    });
+    const confirmBtn = document.getElementById("confirmDeleteBtn");
+    if (confirmBtn) {
+        confirmBtn.addEventListener("click", async function () {
+            if (!currentDeleteUserId) return;
+
+            try {
+                const response = await fetch(
+                    `/admin/users/${currentDeleteUserId}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                        },
+                    },
+                );
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert("✅ " + data.message);
+                    closeDeleteModal();
+                    location.reload();
+                } else {
+                    alert("❌ " + (data.message || "Failed to delete user"));
+                    closeDeleteModal();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ Error: " + error.message);
+                closeDeleteModal();
+            }
+        });
+    }
+
+    const deleteModal = document.getElementById("deleteConfirmModal");
+    if (deleteModal) {
+        deleteModal.addEventListener("click", function (e) {
+            if (e.target === this) closeDeleteModal();
+        });
+    }
+}
+
+// ===== INIT =====
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) searchInput.addEventListener("keyup", filterTable);
+
+    const roleFilter = document.getElementById("roleFilter");
+    if (roleFilter) roleFilter.addEventListener("change", filterTable);
+
+    initAddUser();
+    initViewUser();
+    initEditUser();
+    initDeleteUser();
 });

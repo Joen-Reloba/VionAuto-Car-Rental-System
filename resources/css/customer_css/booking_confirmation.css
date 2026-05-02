@@ -206,7 +206,7 @@
 }
 
 /* Modal Actions */
-.modal-actions {
+.modal-overlay .modal-actions {
     display: flex;
     gap: 12px;
     padding: 24px;

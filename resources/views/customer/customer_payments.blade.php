@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Payments</title>
-   @vite(['resources/css/customer_css/customer_payments.css'])
+   {{-- @vite(['resources/css/customer_css/customer_payments.css','resources/css/landing.css']) --}}
 </head>
 <body>
     @include('layouts.landing_page_navbar')

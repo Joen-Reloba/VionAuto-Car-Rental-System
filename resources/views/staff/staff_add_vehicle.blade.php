@@ -1,7 +1,7 @@
 @extends('layouts.staff_layout')
 
 @section('styles')
-   @vite(['resources/css/staff_css/staff_add_vehicle.css'])
+    @vite('resources/css/staff_css/staff_vehicles.css')
 @endsection
 
 @section('content')

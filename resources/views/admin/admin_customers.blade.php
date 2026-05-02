@@ -2,7 +2,7 @@
 @extends('layouts.admin_layout')
 
 @section('styles')
-     @vite(['resources/css/admin_css/admin_customers.css'])
+    @vite('resources/css/admin_css/admin_customers.css')
 @endsection
 
 @section('content')
