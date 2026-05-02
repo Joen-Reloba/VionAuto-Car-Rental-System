@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- @vite(['resources/css/auth.css', 'resources/css/customer_css/customer_registration.css'])
+    @vite(['resources/css/auth.css', 'resources/css/customer_css/customer_registration.css'])
     
     <style>
         .bg {

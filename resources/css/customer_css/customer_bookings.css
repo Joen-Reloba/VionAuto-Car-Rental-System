@@ -346,17 +346,6 @@
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
 }
 
-.view-btn {
-    background: var(--light-purple);
-    color: var(--primary-purple);
-    border: 1px solid var(--primary-purple);
-}
-
-.view-btn:hover {
-    background: var(--primary-purple);
-    color: white;
-}
-
 .fullpay-btn {
     background: #dbeafe;
     color: #1e40af;

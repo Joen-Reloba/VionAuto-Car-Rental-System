@@ -117,8 +117,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 "₱" + formatCurrency(booking.subtotal);
             document.getElementById("modalVAT").textContent =
                 "₱" + formatCurrency(booking.vat);
-            document.getElementById("modalExtraCharge").textContent =
-                "₱" + formatCurrency(booking.extra_charge || 0);
+
+            const extraChargeRow = document.getElementById(
+                "modalExtraChargeRow",
+            );
+            const extraCharge = Math.abs(parseFloat(booking.extra_charge) || 0);
+
+            // Always show the row
+            extraChargeRow.style.display = "flex";
+
+            if (extraCharge > 0) {
+                document.getElementById("modalExtraCharge").textContent =
+                    "₱" + formatCurrency(extraCharge);
+                document.getElementById("modalExtraCharge").style.color =
+                    "#e74c3c";
+            } else {
+                document.getElementById("modalExtraCharge").textContent =
+                    "None";
+                document.getElementById("modalExtraCharge").style.color =
+                    "#6b7280";
+            }
+
             document.getElementById("modalTotal").textContent =
                 "₱" + formatCurrency(booking.total);
             document.getElementById("modalDownpayment").textContent =

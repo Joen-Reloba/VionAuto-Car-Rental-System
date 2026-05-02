@@ -118,11 +118,25 @@ class Booking extends Model
     /**
      * Mark as returned and calculate extra charges
      */
-    public function markAsReturned()
-    {
-        $this->returned_at = now();
-        $this->extra_charge = $this->calculateExtraCharge();
-        $this->total = $this->subtotal + $this->tax + $this->extra_charge;
-        return $this;
+   public function markAsReturned()
+{
+    $now = now();
+    $this->returned_at = $now;
+    
+    $this->load('vehicle');
+    
+    $rentEnd = \Carbon\Carbon::parse($this->rent_end)->startOfDay();
+    $returnedAt = $now->copy()->startOfDay(); // use $now directly, not $this->returned_at
+    
+    $daysLate = 0;
+    if ($returnedAt->gt($rentEnd)) {
+        $daysLate = $rentEnd->diffInDays($returnedAt);
     }
+    
+    $dailyRate = floatval($this->vehicle?->daily_rate ?? 0);
+    $this->extra_charge = max(0, $daysLate * $dailyRate);
+    $this->total = floatval($this->subtotal) + floatval($this->tax) + $this->extra_charge;
+    
+    return $this;
+}
 }

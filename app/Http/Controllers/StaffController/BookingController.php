@@ -34,7 +34,22 @@ class BookingController extends Controller
             
             // Use values from database
             $subtotal = $booking->subtotal;
-            $extraCharge = $booking->extra_charge ?? 0;
+            
+            $extraCharge = floatval($booking->extra_charge ?? 0);
+
+            // Recalculate live if not saved correctly
+            if ($booking->returned_at && $extraCharge == 0) {
+                $rentEnd = \Carbon\Carbon::parse($booking->rent_end)->startOfDay();
+                $returnedAt = \Carbon\Carbon::parse($booking->returned_at)->startOfDay();
+                if ($returnedAt->gt($rentEnd)) {
+                    $daysLate = $returnedAt->diffInDays($rentEnd);
+                    $extraCharge = max(0, $daysLate * floatval($booking->vehicle->daily_rate ?? 0));
+                }
+            }
+
+            $total = $booking->subtotal + ($booking->tax ?? 0) + $extraCharge;
+
+
             $total = $booking->total;
             $downpayment = $booking->downpayment ?? 0;
             $remainingBalance = $booking->payment_status === 'fullpaid'
