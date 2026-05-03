@@ -28,7 +28,6 @@ export default defineConfig({
                 "resources/css/staff_css/staff_payment.css",
 
                 /* ── Customer ── */
-                "resources/css/customer_css/booking_confirmation.css",
                 "resources/css/customer_css/browse_all_vehicles.css",
                 "resources/css/customer_css/customer_bookings.css",
                 "resources/css/customer_css/customer_payments.css",

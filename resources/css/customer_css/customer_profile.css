@@ -1,11 +1,16 @@
-/* =========================================================
-   customer_profile.css — VionAuto Customer Profile Page
-   ========================================================= */
+/* ============================================================
+   customer_profile.css
+   Scope: .profile-page  and  #passwordModal  #editProfileModal
+   Variables aligned to global design tokens in app.css
+   ============================================================ */
 
-:root {
-    --brand: #7c3aed;
-    --brand-light: #ede9fe;
-    --brand-dark: #5b21b6;
+/* ── Local tokens (profile-only, kept scoped) ── */
+.profile-page,
+#passwordModal,
+#editProfileModal {
+    --brand: #8a2be2; /* aligned to --primary-purple */
+    --brand-light: #f0e6ff; /* aligned to --light-purple */
+    --brand-dark: #4b0082; /* aligned to --dark-purple */
     --green: #16a34a;
     --green-light: #dcfce7;
     --amber: #d97706;
@@ -25,19 +30,21 @@
     --radius-sm: 8px;
 }
 
+/* ── Page Shell ── */
 .profile-page {
     background: var(--gray-50);
     min-height: calc(100vh - 70px);
     padding-bottom: 3rem;
 }
 
-.profile-topbar {
+/* ── Top Breadcrumb Bar ── */
+.profile-page .profile-topbar {
     background: var(--white);
     border-bottom: 1px solid var(--gray-200);
     padding: 0.75rem 0;
 }
 
-.profile-topbar-inner {
+.profile-page .profile-topbar-inner {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 1.5rem;
@@ -46,28 +53,32 @@
     justify-content: space-between;
 }
 
-.breadcrumb {
+.profile-page .breadcrumb {
     font-size: 14px;
     color: var(--gray-600);
 }
-.breadcrumb a {
+
+.profile-page .breadcrumb a {
     color: var(--brand);
     text-decoration: none;
     font-weight: 500;
 }
-.breadcrumb a:hover {
+
+.profile-page .breadcrumb a:hover {
     text-decoration: underline;
 }
-.breadcrumb-sep {
+
+.profile-page .breadcrumb-sep {
     margin: 0 6px;
     color: var(--gray-400);
 }
-.breadcrumb-current {
+
+.profile-page .breadcrumb-current {
     color: var(--gray-800);
     font-weight: 500;
 }
 
-.btn-reset-password {
+.profile-page .btn-reset-password {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -83,12 +94,14 @@
         background 0.18s,
         color 0.18s;
 }
-.btn-reset-password:hover {
+
+.profile-page .btn-reset-password:hover {
     background: var(--brand);
     color: var(--white);
 }
 
-.profile-content {
+/* ── Profile Content ── */
+.profile-page .profile-content {
     max-width: 1100px;
     margin: 0 auto;
     padding: 1.75rem 1.5rem;
@@ -97,24 +110,28 @@
     gap: 1.25rem;
 }
 
-.alert {
+/* ── Alerts ── */
+.profile-page .alert {
     padding: 12px 16px;
     border-radius: var(--radius-sm);
     font-size: 14px;
     font-weight: 500;
 }
-.alert-success {
+
+.profile-page .alert-success {
     background: var(--green-light);
     color: var(--green);
     border: 1px solid #bbf7d0;
 }
-.alert-error {
+
+.profile-page .alert-error {
     background: var(--red-light);
     color: var(--red);
     border: 1px solid #fecaca;
 }
 
-.profile-header-card {
+/* ── Profile Header Card ── */
+.profile-page .profile-header-card {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius);
@@ -125,7 +142,7 @@
     box-shadow: var(--shadow-sm);
 }
 
-.profile-avatar {
+.profile-page .profile-avatar {
     width: 58px;
     height: 58px;
     border-radius: 50%;
@@ -138,9 +155,16 @@
     justify-content: center;
     flex-shrink: 0;
     border: 2px solid var(--brand);
+    overflow: hidden;
 }
 
-.profile-name {
+.profile-page .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-page .profile-name {
     font-size: 18px;
     font-weight: 700;
     color: var(--gray-800);
@@ -150,7 +174,8 @@
     gap: 8px;
     flex-wrap: wrap;
 }
-.status-badge {
+
+.profile-page .status-badge {
     font-size: 12px;
     font-weight: 600;
     color: var(--green);
@@ -159,32 +184,50 @@
     border-radius: 20px;
 }
 
-.profile-sub {
+.profile-page .profile-sub {
     font-size: 13px;
     color: var(--gray-600);
     margin: 0;
 }
 
-.info-grid {
+/* ── Edit Profile Button ── */
+.profile-page .btn-edit-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    padding: 8px 16px;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.profile-page .btn-edit-profile:hover {
+    background: var(--brand-dark);
+}
+
+/* ── Info Grid ── */
+.profile-page .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
 }
 
-@media (max-width: 720px) {
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.info-card {
+.profile-page .info-card {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius);
     padding: 1.25rem 1.5rem;
     box-shadow: var(--shadow-sm);
 }
-.card-label {
+
+.profile-page .card-label {
     font-size: 11px;
     font-weight: 700;
     color: var(--gray-400);
@@ -192,7 +235,8 @@
     letter-spacing: 0.07em;
     margin: 0 0 1rem;
 }
-.info-row {
+
+.profile-page .info-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -201,22 +245,26 @@
     font-size: 13.5px;
     gap: 1rem;
 }
-.info-row.no-border {
+
+.profile-page .info-row.no-border {
     border-bottom: none;
     padding-bottom: 0;
 }
-.info-key {
+
+.profile-page .info-key {
     color: var(--gray-600);
     white-space: nowrap;
 }
-.info-val {
+
+.profile-page .info-val {
     color: var(--gray-800);
     font-weight: 600;
     text-align: right;
     word-break: break-word;
 }
 
-.license-block {
+/* ── License Block ── */
+.profile-page .license-block {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -226,7 +274,8 @@
     padding: 12px 14px;
     margin-bottom: 4px;
 }
-.license-icon {
+
+.profile-page .license-icon {
     width: 36px;
     height: 36px;
     border-radius: 8px;
@@ -236,37 +285,42 @@
     justify-content: center;
     flex-shrink: 0;
 }
-.license-icon svg {
+
+.profile-page .license-icon svg {
     stroke: var(--brand);
     width: 18px;
     height: 18px;
 }
-.license-info strong {
+
+.profile-page .license-info strong {
     font-size: 13.5px;
     color: var(--gray-800);
     display: block;
     margin-bottom: 3px;
 }
-.license-info p {
+
+.profile-page .license-info p {
     font-size: 12.5px;
     color: var(--gray-600);
     margin: 0;
     line-height: 1.5;
 }
 
-.id-divider {
+/* ── Valid ID ── */
+.profile-page .id-divider {
     height: 1px;
     background: var(--gray-100);
     margin: 14px 0 10px;
 }
-.id-sublabel {
+
+.profile-page .id-sublabel {
     font-size: 12px;
     font-weight: 600;
     color: var(--gray-600);
     margin-bottom: 8px;
 }
 
-.valid-id-wrapper {
+.profile-page .valid-id-wrapper {
     position: relative;
     width: 100%;
     height: 110px;
@@ -275,20 +329,23 @@
     cursor: pointer;
     border: 1px solid var(--gray-200);
 }
-.valid-id-thumb {
+
+.profile-page .valid-id-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.25s;
 }
-.valid-id-wrapper:hover .valid-id-thumb {
+
+.profile-page .valid-id-wrapper:hover .valid-id-thumb {
     transform: scale(1.03);
 }
-.valid-id-overlay {
+
+.profile-page .valid-id-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(124, 58, 237, 0.6);
+    background: rgba(138, 43, 226, 0.6);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -298,15 +355,17 @@
     transition: opacity 0.2s;
 }
 
-.valid-id-wrapper:hover .valid-id-overlay {
+.profile-page .valid-id-wrapper:hover .valid-id-overlay {
     opacity: 1;
 }
-.valid-id-overlay span {
+
+.profile-page .valid-id-overlay span {
     font-size: 13px;
     font-weight: 600;
     color: #fff;
 }
-.valid-id-placeholder {
+
+.profile-page .valid-id-placeholder {
     width: 100%;
     height: 100px;
     border: 2px dashed var(--gray-200);
@@ -320,56 +379,68 @@
     font-size: 13px;
 }
 
-.stats-row {
+/* ── Stats Row ── */
+.profile-page .stats-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
-@media (max-width: 600px) {
-    .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
 
-.stat-card {
+.profile-page .stat-card {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius);
     padding: 1.1rem 1.25rem;
     box-shadow: var(--shadow-sm);
+    display: block; /* reset any flex from admin/staff */
+    overflow: visible;
 }
-.stat-label {
+
+.profile-page .stat-card::before {
+    display: none;
+} /* remove dashboard gradient bar */
+
+.profile-page .stat-label {
     font-size: 12px;
     color: var(--gray-600);
     margin: 0 0 6px;
     font-weight: 500;
+    font-family: inherit;
+    letter-spacing: normal;
+    text-transform: none;
 }
-.stat-val {
+
+.profile-page .stat-val {
     font-size: 26px;
     font-weight: 700;
     color: var(--gray-800);
     margin: 0;
     line-height: 1;
+    font-family: inherit;
+    text-align: left;
 }
-.stat-val.green {
+
+.profile-page .stat-val.green {
     color: var(--green);
 }
-.stat-val.amber {
+.profile-page .stat-val.amber {
     color: var(--amber);
 }
-.stat-val.purple {
+.profile-page .stat-val.purple {
     color: var(--brand);
     font-size: 20px;
 }
 
-.table-card {
+/* ── Booking Table Card ── */
+.profile-page .table-card {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
 }
-.table-topbar {
+
+.profile-page .table-topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -378,13 +449,15 @@
     gap: 1rem;
     flex-wrap: wrap;
 }
-.table-title {
+
+.profile-page .table-title {
     font-size: 15px;
     font-weight: 700;
     color: var(--gray-800);
     margin: 0;
 }
-.table-search {
+
+.profile-page .table-search {
     font-size: 13px;
     padding: 7px 12px;
     border: 1px solid var(--gray-200);
@@ -395,18 +468,22 @@
     background: var(--gray-50);
     transition: border-color 0.15s;
 }
-.table-search:focus {
+
+.profile-page .table-search:focus {
     border-color: var(--brand);
 }
-.table-wrapper {
+
+.profile-page .table-wrapper {
     overflow-x: auto;
 }
-table {
+
+.profile-page #bookingTable {
     width: 100%;
     border-collapse: collapse;
     font-size: 13.5px;
 }
-thead th {
+
+.profile-page #bookingTable thead th {
     padding: 10px 1.25rem;
     text-align: left;
     font-size: 11.5px;
@@ -418,49 +495,59 @@ thead th {
     white-space: nowrap;
     background: var(--gray-50);
 }
-tbody tr {
+
+.profile-page #bookingTable tbody tr {
     border-bottom: 1px solid var(--gray-100);
     transition: background 0.12s;
 }
-tbody tr:last-child {
+
+.profile-page #bookingTable tbody tr:last-child {
     border-bottom: none;
 }
-tbody tr:hover {
+
+.profile-page #bookingTable tbody tr:hover {
     background: var(--brand-light);
 }
-td {
+
+.profile-page #bookingTable td {
     padding: 11px 1.25rem;
     color: var(--gray-800);
     vertical-align: middle;
 }
-.booking-id {
+
+.profile-page .booking-id {
     font-family: "Courier New", monospace;
     font-size: 12.5px;
     color: var(--gray-600);
 }
-.car-cell {
+
+.profile-page .car-cell {
     display: flex;
     align-items: center;
     gap: 8px;
 }
-.car-dot {
+
+.profile-page .car-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--brand);
     flex-shrink: 0;
 }
-.amount-cell {
+
+.profile-page .amount-cell {
     font-weight: 700;
     color: var(--gray-800);
 }
-.empty-row {
+
+.profile-page .empty-row {
     text-align: center;
     color: var(--gray-400);
     padding: 2rem;
 }
 
-.status-chip {
+/* ── Status Chips ── */
+.profile-page .status-chip {
     display: inline-block;
     font-size: 11.5px;
     font-weight: 600;
@@ -468,32 +555,34 @@ td {
     border-radius: 20px;
     white-space: nowrap;
 }
-.chip-completed {
+
+.profile-page .chip-completed {
     background: var(--green-light);
     color: var(--green);
 }
-.chip-active,
-.chip-ongoing {
+.profile-page .chip-active,
+.profile-page .chip-ongoing {
     background: var(--amber-light);
     color: var(--amber);
 }
-.chip-cancelled,
-.chip-canceled {
+.profile-page .chip-cancelled,
+.profile-page .chip-canceled {
     background: var(--red-light);
     color: var(--red);
 }
-.chip-pending {
+.profile-page .chip-pending {
     background: var(--brand-light);
     color: var(--brand);
 }
 
-.table-footer {
+.profile-page .table-footer {
     padding: 0.75rem 1.5rem;
     border-top: 1px solid var(--gray-100);
     font-size: 12.5px;
     color: var(--gray-400);
 }
 
+/* ── Valid ID Lightbox ── */
 .lightbox-overlay {
     display: none;
     position: fixed;
@@ -503,9 +592,11 @@ td {
     align-items: center;
     justify-content: center;
 }
+
 .lightbox-overlay.open {
     display: flex;
 }
+
 .lightbox-box {
     position: relative;
     background: var(--white);
@@ -515,12 +606,14 @@ td {
     max-height: 90vh;
     box-shadow: var(--shadow-md);
 }
+
 .lightbox-box img {
     max-width: 80vw;
     max-height: 80vh;
     border-radius: var(--radius-sm);
     display: block;
 }
+
 .lightbox-close {
     position: absolute;
     top: 8px;
@@ -532,11 +625,13 @@ td {
     cursor: pointer;
     line-height: 1;
 }
+
 .lightbox-close:hover {
     color: var(--red);
 }
 
-.modal-overlay {
+/* ── Reset Password Modal ── */
+#passwordModal {
     display: none;
     position: fixed;
     inset: 0;
@@ -545,10 +640,12 @@ td {
     align-items: center;
     justify-content: center;
 }
-.modal-overlay.open {
+
+#passwordModal.open {
     display: flex;
 }
-.modal-box {
+
+#passwordModal .modal-box {
     background: var(--white);
     border-radius: var(--radius);
     padding: 1.75rem;
@@ -556,19 +653,22 @@ td {
     max-width: 420px;
     box-shadow: var(--shadow-md);
 }
-.modal-header {
+
+#passwordModal .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.25rem;
 }
-.modal-header h3 {
+
+#passwordModal .modal-header h3 {
     font-size: 17px;
     font-weight: 700;
     color: var(--gray-800);
     margin: 0;
 }
-.modal-close {
+
+#passwordModal .modal-close {
     background: none;
     border: none;
     font-size: 22px;
@@ -576,28 +676,45 @@ td {
     cursor: pointer;
     line-height: 1;
 }
-.modal-close:hover {
+
+#passwordModal .modal-close:hover {
     color: var(--red);
 }
-.password-form {
+
+#passwordModal .alert-error {
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid #fecaca;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+#passwordModal .password-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
-.form-group {
+
+#passwordModal .form-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
-.form-group label {
+
+#passwordModal .form-group label {
     font-size: 13px;
     font-weight: 600;
     color: #374151;
 }
-.input-wrap {
+
+#passwordModal .input-wrap {
     position: relative;
 }
-.input-wrap input {
+
+#passwordModal .input-wrap input {
     width: 100%;
     padding: 9px 38px 9px 12px;
     border: 1.5px solid var(--gray-200);
@@ -608,10 +725,12 @@ td {
     transition: border-color 0.15s;
     box-sizing: border-box;
 }
-.input-wrap input:focus {
+
+#passwordModal .input-wrap input:focus {
     border-color: var(--brand);
 }
-.eye-btn {
+
+#passwordModal .eye-btn {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -624,22 +743,26 @@ td {
     display: flex;
     align-items: center;
 }
-.eye-btn:hover,
-.eye-btn.active {
+
+#passwordModal .eye-btn:hover,
+#passwordModal .eye-btn.active {
     color: var(--brand);
 }
-.input-hint {
+
+#passwordModal .input-hint {
     font-size: 11.5px;
     color: var(--gray-400);
     margin: 0;
 }
-.modal-actions {
+
+#passwordModal .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
     margin-top: 0.5rem;
 }
-.btn-cancel {
+
+#passwordModal .btn-cancel {
     padding: 9px 20px;
     border: 1.5px solid var(--gray-200);
     background: var(--white);
@@ -649,10 +772,12 @@ td {
     color: var(--gray-600);
     cursor: pointer;
 }
-.btn-cancel:hover {
+
+#passwordModal .btn-cancel:hover {
     background: var(--gray-100);
 }
-.btn-save {
+
+#passwordModal .btn-save {
     padding: 9px 20px;
     background: var(--brand);
     border: none;
@@ -662,52 +787,73 @@ td {
     color: var(--white);
     cursor: pointer;
 }
-.btn-save:hover {
+
+#passwordModal .btn-save:hover {
     background: var(--brand-dark);
 }
 
-/* Edit Profile Button */
-.btn-edit-profile {
-    display: inline-flex;
+/* ── Edit Profile Modal ── */
+#editProfileModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 8888;
     align-items: center;
-    gap: 6px;
-    margin-left: auto;
-    padding: 8px 16px;
-    background: var(--primary-purple);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
+    justify-content: center;
 }
 
-.btn-edit-profile:hover {
-    background: var(--dark-purple);
+#editProfileModal.open {
+    display: flex;
 }
 
-/* Wider modal for edit form */
-.modal-box--wide {
-    max-width: 680px;
+#editProfileModal .modal-box {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.75rem;
     width: 95%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-md);
 }
 
-/* Edit form grid */
-.edit-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
+#editProfileModal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
 }
 
-.form-group--full {
-    grid-column: 1 / -1;
+#editProfileModal .modal-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin: 0;
 }
 
-@media (max-width: 560px) {
-    .edit-form-grid {
+#editProfileModal .modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--gray-400);
+    cursor: pointer;
+    line-height: 1;
+}
+
+#editProfileModal .modal-close:hover {
+    color: var(--red);
+}
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+    .profile-page .info-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-page .stats-row {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

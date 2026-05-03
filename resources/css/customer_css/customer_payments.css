@@ -1,4 +1,8 @@
-/* Customer Payments Page */
+/* ============================================================
+   customer_payments.css
+   Scope: .customer-payments-page
+   ============================================================ */
+
 .customer-payments-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -6,7 +10,8 @@
     min-height: calc(100vh - 100px);
 }
 
-.page-header-wrapper {
+/* ── Page Header ── */
+.customer-payments-page .page-header-wrapper {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -15,34 +20,34 @@
     border-bottom: 2px solid #e5e7eb;
 }
 
-.back-btn {
+.customer-payments-page .back-btn {
     padding: 8px 16px;
-    background: var(--light-purple);
-    color: var(--primary-purple);
+    background: #f0e6ff;
+    color: #8a2be2;
     text-decoration: none;
     border-radius: 6px;
     font-weight: 600;
     transition: all 0.2s;
-    border: 1px solid var(--primary-purple);
+    border: 1px solid #8a2be2;
     white-space: nowrap;
     font-size: 14px;
 }
 
-.back-btn:hover {
-    background: var(--primary-purple);
+.customer-payments-page .back-btn:hover {
+    background: #8a2be2;
     color: white;
 }
 
-.page-title {
+.customer-payments-page .page-title {
     font-size: 28px;
     font-weight: 700;
-    color: var(--gray-dark);
+    color: #333;
     margin: 0;
     flex: 1;
 }
 
-/* Filter Tabs */
-.payments-filters {
+/* ── Filter Tabs ── */
+.customer-payments-page .payments-filters {
     display: flex;
     gap: 12px;
     margin-bottom: 30px;
@@ -50,10 +55,10 @@
     padding-bottom: 10px;
 }
 
-.filter-btn {
+.customer-payments-page .filter-btn {
     padding: 10px 20px;
     background: white;
-    color: var(--gray-dark);
+    color: #333;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     font-weight: 600;
@@ -63,67 +68,26 @@
     white-space: nowrap;
 }
 
-.filter-btn:hover {
-    border-color: var(--primary-purple);
-    color: var(--primary-purple);
+.customer-payments-page .filter-btn:hover {
+    border-color: #8a2be2;
+    color: #8a2be2;
 }
 
-.filter-btn.active {
-    background: var(--primary-purple);
+.customer-payments-page .filter-btn.active {
+    background: #8a2be2;
     color: white;
-    border-color: var(--primary-purple);
+    border-color: #8a2be2;
 }
 
-/* Empty State */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    grid-column: 1 / -1;
-}
-
-.empty-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
-}
-
-.empty-state h2 {
-    font-size: 24px;
-    color: var(--gray-dark);
-    margin-bottom: 10px;
-}
-
-.empty-state p {
-    color: var(--gray-medium);
-    font-size: 16px;
-    margin-bottom: 30px;
-}
-
-.browse-btn {
-    display: inline-block;
-    padding: 12px 32px;
-    background: var(--primary-purple);
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-.browse-btn:hover {
-    background: var(--dark-purple);
-    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3);
-    transform: translateY(-2px);
-}
-
-/* Payments Container */
-.payments-container {
+/* ── Payments Grid ── */
+.customer-payments-page .payments-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 24px;
 }
 
-/* Payment Card */
-.payment-card {
+/* ── Payment Card ── */
+.customer-payments-page .payment-card {
     background: #fafaf9;
     border: 2px solid #e5dff7;
     border-radius: 16px;
@@ -132,13 +96,14 @@
     box-shadow: 0 2px 12px rgba(138, 43, 226, 0.08);
 }
 
-.payment-card:hover {
+.customer-payments-page .payment-card:hover {
     box-shadow: 0 8px 24px rgba(138, 43, 226, 0.12);
     transform: translateY(-4px);
     border-color: #d5c9f0;
 }
 
-.payment-header {
+/* ── Payment Header ── */
+.customer-payments-page .payment-header {
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -148,25 +113,25 @@
     border-bottom: 1px solid #e5dff7;
 }
 
-.payment-info {
+.customer-payments-page .payment-info {
     flex: 1;
 }
 
-.payment-title {
+.customer-payments-page .payment-title {
     font-size: 16px;
     font-weight: 700;
-    color: #4b0082 !important;
+    color: #4b0082;
     margin: 0 0 4px 0;
 }
 
-.payment-id {
+.customer-payments-page .payment-id {
     font-size: 12px;
-    color: #4b0082 !important;
+    color: #4b0082;
     margin: 0;
 }
 
-/* Status Badge */
-.status-badge {
+/* ── Status Badge ── */
+.customer-payments-page .status-badge {
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 11px;
@@ -176,28 +141,26 @@
     white-space: nowrap;
 }
 
-.status-badge.pending {
+.customer-payments-page .status-badge.pending {
     background: rgba(251, 191, 36, 0.15);
     color: #d97706;
 }
-
-.status-badge.verified {
+.customer-payments-page .status-badge.verified {
     background: rgba(34, 197, 94, 0.15);
     color: #16a34a;
 }
-
-.status-badge.rejected {
+.customer-payments-page .status-badge.rejected {
     background: rgba(239, 68, 68, 0.15);
     color: #dc2626;
 }
 
-/* Payment Details */
-.payment-details {
+/* ── Payment Details ── */
+.customer-payments-page .payment-details {
     padding: 20px;
     background: white;
 }
 
-.detail-row {
+.customer-payments-page .detail-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -206,33 +169,33 @@
     font-size: 14px;
 }
 
-.detail-row:last-child {
+.customer-payments-page .detail-row:last-child {
     border-bottom: none;
 }
 
-.detail-row label {
+.customer-payments-page .detail-row label {
     font-weight: 600;
-    color: #4b0082 !important;
+    color: #4b0082;
     font-size: 13px;
     letter-spacing: 0.3px;
 }
 
-.detail-row span {
-    color: #4b0082 !important;
+.customer-payments-page .detail-row span {
+    color: #4b0082;
     text-align: right;
     flex: 1;
     margin-left: 12px;
     font-weight: 600;
 }
 
-.detail-row .amount {
+.customer-payments-page .detail-row .amount {
     font-weight: 800;
     color: #8a2be2;
     font-size: 16px;
 }
 
-/* Payment Actions */
-.payment-actions {
+/* ── Payment Actions ── */
+.customer-payments-page .payment-actions {
     padding: 16px 20px;
     border-top: 1px solid #e5dff7;
     display: flex;
@@ -240,7 +203,7 @@
     background: #fafaf9;
 }
 
-.action-btn {
+.customer-payments-page .action-btn {
     flex: 1;
     padding: 11px 16px;
     background: white;
@@ -256,25 +219,61 @@
     letter-spacing: 0.3px;
 }
 
-.action-btn:hover {
+.customer-payments-page .action-btn:hover {
     background: #8a2be2;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(138, 43, 226, 0.25);
 }
 
-.action-btn:active {
-    transform: translateY(0);
-}
-
-.view-receipt-btn {
+.customer-payments-page .view-receipt-btn {
     background: white;
     color: #8a2be2;
     border: 2px solid #8a2be2;
 }
 
-/* Pagination Styles */
-.pagination-wrapper {
+/* ── Empty State ── */
+.customer-payments-page .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+.customer-payments-page .empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.customer-payments-page .empty-state h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.customer-payments-page .empty-state p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.customer-payments-page .browse-btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: #8a2be2;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.customer-payments-page .browse-btn:hover {
+    background: #4b0082;
+    transform: translateY(-2px);
+}
+
+/* ── Pagination ── */
+.customer-payments-page .pagination-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -282,7 +281,7 @@
     padding: 30px 0;
 }
 
-.pagination-list {
+.customer-payments-page .pagination-list {
     display: flex;
     list-style: none;
     margin: 0;
@@ -293,13 +292,13 @@
     justify-content: center;
 }
 
-.pagination-list li {
+.customer-payments-page .pagination-list li {
     display: inline-block;
     margin: 0;
 }
 
-.pagination-list a,
-.pagination-list span {
+.customer-payments-page .pagination-list a,
+.customer-payments-page .pagination-list span {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -314,80 +313,63 @@
     font-size: 16px;
 }
 
-.pagination-list a:hover {
+.customer-payments-page .pagination-list a:hover {
     background-color: rgba(138, 43, 226, 0.1);
     border-color: #8a2be2;
-    color: #8a2be2;
 }
 
-.pagination-list li.active span {
+.customer-payments-page .pagination-list li.active span {
     background-color: #8a2be2;
     color: white;
     border-color: #8a2be2;
 }
 
-.pagination-list li.disabled span {
+.customer-payments-page .pagination-list li.disabled span {
     color: #999;
     border-color: #ddd;
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 768px) {
-    .page-header-wrapper {
+    .customer-payments-page {
+        padding: 20px 16px;
+    }
+
+    .customer-payments-page .page-header-wrapper {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .payments-filters {
+    .customer-payments-page .payments-filters {
         flex-wrap: wrap;
     }
 
-    .payment-header {
+    .customer-payments-page .payment-header {
         flex-direction: column;
     }
 
-    .status-badge {
+    .customer-payments-page .status-badge {
         align-self: flex-start;
     }
 
-    .detail-row {
+    .customer-payments-page .detail-row {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .detail-row span {
+    .customer-payments-page .detail-row span {
         text-align: left;
         margin-left: 0;
         margin-top: 4px;
     }
 
-    .payment-actions {
+    .customer-payments-page .payment-actions {
         flex-direction: column;
     }
 
-    .action-btn {
+    .customer-payments-page .action-btn {
         width: 100%;
-    }
-}
-
-/* Dark theme support */
-@media (prefers-color-scheme: dark) {
-    .payment-card {
-        background: #1f2937;
-        border-color: #374151;
-    }
-
-    .payment-title {
-        color: #f3f4f6;
-    }
-
-    .detail-row label {
-        color: #f3f4f6;
-    }
-
-    .detail-row span {
-        color: #d1d5db;
     }
 }

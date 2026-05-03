@@ -1,4 +1,9 @@
-/* Registration Form Styles */
+/* ============================================================
+   customer_registration.css
+   Scope: .registration-form
+   auth.css handles the .bg, .container, and .login-form —
+   this file only handles registration-specific elements.
+   ============================================================ */
 
 .registration-form {
     background: rgba(255, 255, 255, 0.95);
@@ -11,36 +16,38 @@
     overflow-y: auto;
 }
 
-.center-container {
+/* ── Logo / Heading ── */
+.registration-form .center-container {
     text-align: center;
     margin-bottom: 28px;
 }
 
-.center-container img {
+.registration-form .center-container img {
     width: 160px;
     height: auto;
     margin-bottom: 8px;
     object-fit: contain;
 }
 
-.center-container p {
+.registration-form .center-container p {
     font-size: 13px;
     color: #888;
     margin-top: 4px;
 }
 
-/* Form Sections */
-.form-section {
+/* ── Form Sections ── */
+.registration-form .form-section {
     margin-bottom: 28px;
     padding-bottom: 24px;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.form-section:last-of-type {
+.registration-form .form-section:last-of-type {
     border-bottom: none;
 }
 
-.section-title {
+/* section-title scoped to registration only — avoids conflict with landing.css */
+.registration-form .section-title {
     font-size: 14px;
     font-weight: 700;
     color: #4b0082;
@@ -50,21 +57,21 @@
     margin-top: 0;
 }
 
-/* Form Layout */
-.form-row {
+/* ── Form Layout ── */
+.registration-form .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-bottom: 16px;
 }
 
-.form-group {
+.registration-form .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
 }
 
-.form-group label {
+.registration-form .form-group label {
     display: block;
     font-size: 13px;
     font-weight: 600;
@@ -72,11 +79,11 @@
     margin-bottom: 6px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group input[type="password"],
-.form-group input[type="date"] {
+.registration-form .form-group input[type="text"],
+.registration-form .form-group input[type="email"],
+.registration-form .form-group input[type="tel"],
+.registration-form .form-group input[type="password"],
+.registration-form .form-group input[type="date"] {
     width: 100%;
     padding: 10px 14px;
     border: 1px solid #4b0082;
@@ -84,36 +91,38 @@
     font-size: 14px;
     color: #333;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
     font-family: "Segoe UI", sans-serif;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="tel"]:focus,
-.form-group input[type="password"]:focus,
-.form-group input[type="date"]:focus {
+.registration-form .form-group input[type="text"]:focus,
+.registration-form .form-group input[type="email"]:focus,
+.registration-form .form-group input[type="tel"]:focus,
+.registration-form .form-group input[type="password"]:focus,
+.registration-form .form-group input[type="date"]:focus {
     border-color: #7b2fbe;
     box-shadow: 0 0 0 3px rgba(123, 47, 190, 0.1);
 }
 
-.password-hint {
+.registration-form .password-hint {
     font-size: 11px;
     color: #999;
     margin-top: 4px;
 }
 
-/* File Input Styling */
-.file-input-wrapper {
+/* ── File Input ── */
+.registration-form .file-input-wrapper {
     position: relative;
     margin-top: 8px;
 }
 
-.file-input-wrapper input[type="file"] {
+.registration-form .file-input-wrapper input[type="file"] {
     display: none;
 }
 
-.file-input-label {
+.registration-form .file-input-label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,18 +138,18 @@
     font-size: 14px;
 }
 
-.file-input-label:hover {
+.registration-form .file-input-label:hover {
     border-color: #7b2fbe;
     background: #f3f0ff;
 }
 
-.file-input-label svg {
+.registration-form .file-input-label svg {
     width: 20px;
     height: 20px;
     stroke: #4b0082;
 }
 
-.file-name {
+.registration-form .file-name {
     display: block;
     font-size: 12px;
     color: #888;
@@ -148,14 +157,14 @@
     margin-left: 4px;
 }
 
-/* Image Preview */
-.image-preview {
+/* ── Image Preview ── */
+.registration-form .image-preview {
     display: none;
     margin-top: 12px;
     text-align: center;
 }
 
-.image-preview img {
+.registration-form .image-preview img {
     max-width: 100%;
     max-height: 200px;
     border-radius: 8px;
@@ -163,13 +172,13 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Terms & Conditions */
-.terms-section {
+/* ── Terms ── */
+.registration-form .terms-section {
     margin-bottom: 20px;
     margin-top: 24px;
 }
 
-.checkbox-label {
+.registration-form .checkbox-label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -179,15 +188,15 @@
     user-select: none;
 }
 
-.checkbox-label input[type="checkbox"] {
+.registration-form .checkbox-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
     cursor: pointer;
     accent-color: #4b0082;
 }
 
-/* Submit Button */
-button[type="submit"] {
+/* ── Submit Button ── */
+.registration-form button[type="submit"] {
     width: 100%;
     padding: 12px;
     background: #7b2fbe;
@@ -202,117 +211,33 @@ button[type="submit"] {
     font-family: "Segoe UI", sans-serif;
 }
 
-button[type="submit"]:hover {
+.registration-form button[type="submit"]:hover {
     opacity: 0.88;
 }
 
-button[type="submit"]:active {
+.registration-form button[type="submit"]:active {
     opacity: 0.8;
 }
 
-.registration-footer {
+/* ── Footer Link ── */
+.registration-form .registration-footer {
     text-align: center;
     margin-top: 20px;
     font-size: 13px;
     color: #888;
 }
 
-.registration-footer a {
+.registration-form .registration-footer a {
     color: #7b2fbe;
     font-weight: 600;
     text-decoration: none;
 }
 
-.registration-footer a:hover {
+.registration-form .registration-footer a:hover {
     text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .registration-form {
-        padding: 32px 20px;
-        margin: 20px;
-        max-width: 100%;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .center-container img {
-        width: 140px;
-    }
-
-    .section-title {
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
-
-    .form-group input {
-        padding: 9px 12px;
-        font-size: 13px;
-    }
-
-    .form-section {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-    }
-
-    button[type="submit"] {
-        padding: 11px;
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .registration-form {
-        padding: 24px 16px;
-        border-radius: 12px;
-    }
-
-    .center-container img {
-        width: 120px;
-    }
-
-    .center-container p {
-        font-size: 12px;
-    }
-
-    .form-section {
-        margin-bottom: 16px;
-        padding-bottom: 12px;
-    }
-
-    .section-title {
-        font-size: 11px;
-    }
-
-    .form-row {
-        gap: 10px;
-    }
-
-    .file-input-label {
-        padding: 12px;
-        font-size: 12px;
-    }
-
-    .file-input-label svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .checkbox-label {
-        font-size: 12px;
-    }
-
-    .checkbox-label input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-    }
-}
-
-/* Scrollbar Styling */
+/* ── Scrollbar ── */
 .registration-form::-webkit-scrollbar {
     width: 8px;
 }
@@ -329,4 +254,84 @@ button[type="submit"]:active {
 
 .registration-form::-webkit-scrollbar-thumb:hover {
     background: #b8a8d8;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .registration-form {
+        padding: 32px 20px;
+        margin: 20px;
+        max-width: 100%;
+    }
+
+    .registration-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .registration-form .center-container img {
+        width: 140px;
+    }
+
+    .registration-form .section-title {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .registration-form .form-section {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+
+    .registration-form button[type="submit"] {
+        padding: 11px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-form {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+
+    .registration-form .center-container img {
+        width: 120px;
+    }
+
+    .registration-form .center-container p {
+        font-size: 12px;
+    }
+
+    .registration-form .form-section {
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+    }
+
+    .registration-form .section-title {
+        font-size: 11px;
+    }
+
+    .registration-form .form-row {
+        gap: 10px;
+    }
+
+    .registration-form .file-input-label {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .registration-form .file-input-label svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .registration-form .checkbox-label {
+        font-size: 12px;
+    }
+
+    .registration-form .checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
 }

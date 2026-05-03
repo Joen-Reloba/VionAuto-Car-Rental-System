@@ -67,7 +67,7 @@
         <div class="discover-header">
             <div>
                 <h2 class="section-title">Discover Cars</h2>
-                <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempore incididunt ut labore et dolore magna aliqua.</p>
+                <p class="section-subtitle">Drive your journey with ease—explore reliable, affordable vehicles tailored for every trip with VionAuto.</p>
             </div>
             <a href="{{ route('customer.browse-all-vehicles') }}" class="browse-all-btn">Browse All</a>
         </div>
@@ -109,10 +109,13 @@
             <div class="about-content">
                 <h2 class="section-title">About Us</h2>
                 <p class="about-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempore incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                    At VionAuto, we are committed to providing reliable, affordable, and convenient car rental services tailored to meet your travel needs. 
+                    Whether you're planning a business trip, a family getaway, or simply need a vehicle for everyday use,
+                     we offer a wide range of well-maintained cars to suit every journey.
                 </p>
                 <p class="about-text">
-                    Is a duis lorem dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Our goal is to deliver a smooth and stress-free rental experience through easy booking, transparent pricing, and dependable customer support. 
+                    At VionAuto, your comfort, safety, and satisfaction are always our top priorities.
                 </p>
             </div>
             

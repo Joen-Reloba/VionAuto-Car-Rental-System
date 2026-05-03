@@ -1,44 +1,51 @@
-/* Vehicle View Page Styles */
+/* ============================================================
+   view_vehicle.css  +  booking_confirmation.css  (combined)
+   Scope: .vehicle-detail-container  and  #bookingModal
+   booking_confirmation is an @include inside view_vehicle —
+   no separate page wrapper, so modal is scoped by its own ID.
+   ============================================================ */
 
+/* ── Page Container ── */
 .vehicle-detail-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
 }
 
-.back-link {
+.vehicle-detail-container .back-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--primary-purple);
+    color: #8a2be2;
     text-decoration: none;
     font-weight: 600;
     margin-bottom: 30px;
     transition: color 0.2s;
 }
 
-.back-link:hover {
-    color: var(--dark-purple);
+.vehicle-detail-container .back-link:hover {
+    color: #4b0082;
 }
 
-.vehicle-detail-content {
+/* ── Two-column Layout ── */
+.vehicle-detail-container .vehicle-detail-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: start;
 }
 
-/* Images Section */
-.vehicle-images-section {
+/* ── Images Section ── */
+.vehicle-detail-container .vehicle-images-section {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.main-image-wrapper {
+.vehicle-detail-container .main-image-wrapper {
     width: 100%;
     height: 400px;
-    background: var(--gray-light);
+    background: #f5f5f5;
     border-radius: 12px;
     overflow: hidden;
     display: flex;
@@ -46,13 +53,13 @@
     justify-content: center;
 }
 
-.main-image {
+.vehicle-detail-container .main-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.no-image-placeholder {
+.vehicle-detail-container .no-image-placeholder {
     width: 100%;
     height: 100%;
     display: flex;
@@ -62,92 +69,91 @@
     color: #ddd;
 }
 
-.thumbnail-gallery {
+.vehicle-detail-container .thumbnail-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 12px;
 }
 
-.thumbnail-wrapper {
+.vehicle-detail-container .thumbnail-wrapper {
     width: 100%;
     height: 80px;
     border-radius: 8px;
     overflow: hidden;
-    background: var(--gray-light);
+    background: #f5f5f5;
     cursor: pointer;
     border: 2px solid transparent;
     transition: border-color 0.2s;
 }
 
-.thumbnail {
+.vehicle-detail-container .thumbnail {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.thumbnail-wrapper:hover {
-    border-color: var(--primary-purple);
+.vehicle-detail-container .thumbnail-wrapper:hover {
+    border-color: #8a2be2;
 }
 
-.vehicle-description-section {
+.vehicle-detail-container .vehicle-description-section {
     margin-top: 8px;
     padding: 20px;
     background: #fafafa;
-    border: 1px solid var(--border-color);
+    border: 1px solid #e0e0e0;
     border-radius: 12px;
 }
 
-.description-title {
+.vehicle-detail-container .description-title {
     font-size: 15px;
     font-weight: 700;
-    color: var(--gray-dark);
+    color: #333;
     margin-bottom: 10px;
 }
 
-.description-text {
+.vehicle-detail-container .description-text {
     font-size: 14px;
     color: #666;
     line-height: 1.7;
     white-space: pre-wrap;
 }
 
-/* Booking Card */
-.booking-card {
+/* ── Booking Card ── */
+.vehicle-detail-container .booking-card {
     background: white;
-    border: 2px solid var(--primary-purple);
+    border: 2px solid #8a2be2;
     border-radius: 16px;
     padding: 32px;
     height: fit-content;
 }
 
-.card-title {
+.vehicle-detail-container .card-title {
     font-size: 24px;
     font-weight: 600;
-    color: var(--primary-purple);
+    color: #8a2be2;
     margin-bottom: 24px;
     text-align: center;
 }
 
-/* Vehicle Info Header */
-.vehicle-info-header {
+.vehicle-detail-container .vehicle-info-header {
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.vehicle-name-section {
+.vehicle-detail-container .vehicle-name-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.vehicle-name {
+.vehicle-detail-container .vehicle-name {
     font-size: 20px;
     font-weight: 600;
-    color: var(--gray-dark);
+    color: #333;
 }
 
-.vehicle-details {
+.vehicle-detail-container .vehicle-details {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -155,123 +161,116 @@
     color: #999;
 }
 
-.detail-label {
-    text-transform: capitalize;
-}
-
-.detail-separator {
+.vehicle-detail-container .detail-separator {
     color: #ddd;
 }
 
-/* Daily Rate Section */
-.daily-rate-section {
+.vehicle-detail-container .daily-rate-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.rate-label {
+.vehicle-detail-container .rate-label {
     font-size: 14px;
     color: #999;
     font-weight: 500;
 }
 
-.rate-amount {
+.vehicle-detail-container .rate-amount {
     font-size: 20px;
     font-weight: 700;
-    color: var(--primary-purple);
+    color: #8a2be2;
 }
 
-/* Booking Form */
-.booking-form {
+/* ── Booking Form ── */
+.vehicle-detail-container .booking-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.form-group {
+.vehicle-detail-container .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.form-label {
+.vehicle-detail-container .form-label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--gray-dark);
+    color: #333;
 }
 
-.date-input-wrapper {
+.vehicle-detail-container .date-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.form-input {
+.vehicle-detail-container .form-input {
     width: 100%;
     padding: 12px 16px;
     padding-right: 40px;
-    border: 2px solid var(--primary-purple);
+    border: 2px solid #8a2be2;
     border-radius: 8px;
     font-size: 14px;
-    color: var(--gray-dark);
+    color: #333;
     font-family: inherit;
     transition: border-color 0.2s;
 }
 
-.form-input:focus {
+.vehicle-detail-container .form-input:focus {
     outline: none;
-    border-color: var(--dark-purple);
+    border-color: #4b0082;
     box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
 }
 
-.date-input-wrapper svg {
+.vehicle-detail-container .date-input-wrapper svg {
     position: absolute;
     right: 12px;
     pointer-events: none;
-    color: var(--primary-purple);
+    color: #8a2be2;
 }
 
-/* Downpayment and Total Sections */
-.downpayment-section,
-.total-section {
+.vehicle-detail-container .downpayment-section,
+.vehicle-detail-container .total-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.downpayment-label,
-.total-label {
+.vehicle-detail-container .downpayment-label,
+.vehicle-detail-container .total-label {
     font-size: 14px;
     color: #999;
     font-weight: 500;
 }
 
-.downpayment-percentage {
+.vehicle-detail-container .downpayment-percentage {
     font-size: 12px;
     margin-left: 4px;
 }
 
-.downpayment-amount,
-.total-amount {
+.vehicle-detail-container .downpayment-amount,
+.vehicle-detail-container .total-amount {
     font-size: 18px;
     font-weight: 700;
-    color: var(--primary-purple);
+    color: #8a2be2;
 }
 
-.total-amount {
+.vehicle-detail-container .total-amount {
     font-size: 20px;
 }
 
-/* Book Now Button */
-.book-now-btn {
+.vehicle-detail-container .book-now-btn {
     padding: 14px 24px;
-    background: var(--primary-purple);
+    background: #8a2be2;
     color: white;
     border: none;
     border-radius: 8px;
@@ -284,26 +283,281 @@
     margin-top: 8px;
 }
 
-.book-now-btn:hover {
-    background: var(--dark-purple);
+.vehicle-detail-container .book-now-btn:hover {
+    background: #4b0082;
 }
 
-.book-now-btn:active {
+.vehicle-detail-container .book-now-btn:active {
     transform: scale(0.98);
 }
 
-/* Responsive Design */
+/* ══════════════════════════════════
+   Booking Confirmation Modal
+   (included as partial inside this page)
+   ══════════════════════════════════ */
+#bookingModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+}
+
+#bookingModal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#bookingModal .modal-content {
+    background: white;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: modal-slide-up 0.3s ease;
+}
+
+@keyframes modal-slide-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#bookingModal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+}
+
+#bookingModal .modal-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #8a2be2;
+    margin: 0;
+}
+
+#bookingModal .modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+#bookingModal .modal-close:hover {
+    color: #333;
+}
+
+#bookingModal .modal-body {
+    padding: 24px;
+}
+
+#bookingModal .modal-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#bookingModal .modal-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* section-title scoped to modal only — avoids conflict with landing.css */
+#bookingModal .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#bookingModal .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+#bookingModal .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#bookingModal .detail-label {
+    font-size: 12px;
+    color: #999;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#bookingModal .detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Pricing section */
+#bookingModal .pricing-section {
+    background: #f0e6ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    border: none;
+    padding-bottom: 20px;
+}
+
+#bookingModal .pricing-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#bookingModal .pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+}
+
+#bookingModal .pricing-row:not(:last-child) {
+    border-bottom: 1px solid rgba(138, 43, 226, 0.1);
+}
+
+#bookingModal .pricing-label {
+    font-size: 14px;
+    color: #8a2be2;
+    font-weight: 500;
+}
+
+#bookingModal .pricing-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #8a2be2;
+}
+
+/* Form inside modal */
+#bookingModal .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#bookingModal .form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+#bookingModal .form-input {
+    padding: 10px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+#bookingModal .form-input:focus {
+    outline: none;
+    border-color: #8a2be2;
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+}
+
+/* Modal actions */
+#bookingModal .modal-actions {
+    display: flex;
+    gap: 12px;
+    padding: 24px;
+    border-top: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    border-radius: 0 0 16px 16px;
+    position: sticky;
+    bottom: 0;
+}
+
+#bookingModal .btn {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#bookingModal .btn:active {
+    transform: scale(0.98);
+}
+
+#bookingModal .btn-cancel {
+    background: white;
+    color: #8a2be2;
+    border: 2px solid #8a2be2;
+}
+
+#bookingModal .btn-cancel:hover {
+    background: #f0e6ff;
+}
+
+#bookingModal .btn-confirm {
+    background: #8a2be2;
+    color: white;
+}
+
+#bookingModal .btn-confirm:hover {
+    background: #4b0082;
+}
+
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-    .vehicle-detail-content {
+    .vehicle-detail-container .vehicle-detail-content {
         grid-template-columns: 1fr;
         gap: 40px;
     }
 
-    .main-image-wrapper {
+    .vehicle-detail-container .main-image-wrapper {
         height: 350px;
     }
 
-    .booking-card {
+    .vehicle-detail-container .booking-card {
         max-width: 500px;
         margin: 0 auto;
     }
@@ -314,33 +568,65 @@
         padding: 20px 16px;
     }
 
-    .vehicle-detail-content {
+    .vehicle-detail-container .vehicle-detail-content {
         gap: 30px;
     }
 
-    .main-image-wrapper {
+    .vehicle-detail-container .main-image-wrapper {
         height: 300px;
     }
 
-    .booking-card {
+    .vehicle-detail-container .booking-card {
         padding: 24px;
     }
 
-    .card-title {
+    .vehicle-detail-container .card-title {
         font-size: 20px;
         margin-bottom: 20px;
     }
 
-    .vehicle-name {
+    .vehicle-detail-container .vehicle-name {
         font-size: 18px;
     }
 
-    .rate-amount {
+    .vehicle-detail-container .rate-amount {
         font-size: 18px;
     }
 
-    .book-now-btn {
+    .vehicle-detail-container .book-now-btn {
         padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    #bookingModal .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+
+    #bookingModal .modal-header {
+        padding: 16px;
+    }
+
+    #bookingModal .modal-header h2 {
+        font-size: 18px;
+    }
+
+    #bookingModal .modal-body {
+        padding: 16px;
+    }
+
+    #bookingModal .details-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    #bookingModal .modal-actions {
+        padding: 16px;
+        gap: 8px;
+    }
+
+    #bookingModal .btn {
+        padding: 10px 16px;
         font-size: 14px;
     }
 }
@@ -350,54 +636,52 @@
         padding: 16px;
     }
 
-    .vehicle-detail-content {
-        gap: 24px;
-    }
-
-    .main-image-wrapper {
+    .vehicle-detail-container .main-image-wrapper {
         height: 250px;
     }
 
-    .thumbnail-gallery {
+    .vehicle-detail-container .thumbnail-gallery {
         grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
         gap: 8px;
     }
 
-    .thumbnail-wrapper {
+    .vehicle-detail-container .thumbnail-wrapper {
         height: 60px;
     }
 
-    .booking-card {
+    .vehicle-detail-container .booking-card {
         padding: 20px;
     }
 
-    .card-title {
-        font-size: 18px;
-        margin-bottom: 16px;
-    }
-
-    .vehicle-name {
-        font-size: 16px;
-    }
-
-    .rate-amount,
-    .total-amount {
-        font-size: 16px;
-    }
-
-    .downpayment-amount {
-        font-size: 16px;
-    }
-
-    .form-input {
+    .vehicle-detail-container .form-input {
         padding: 10px 12px;
         padding-right: 36px;
         font-size: 13px;
     }
 
-    .date-input-wrapper svg {
-        width: 18px;
-        height: 18px;
-        right: 10px;
+    #bookingModal .modal-content {
+        width: 98%;
+    }
+
+    #bookingModal .modal-header {
+        padding: 12px;
+    }
+
+    #bookingModal .modal-actions {
+        padding: 12px;
+        flex-direction: column;
+    }
+
+    #bookingModal .section-title {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    #bookingModal .detail-value {
+        font-size: 14px;
+    }
+
+    #bookingModal .pricing-value {
+        font-size: 16px;
     }
 }
