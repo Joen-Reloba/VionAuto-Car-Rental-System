@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Staff;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
@@ -139,4 +140,33 @@ class Booking extends Model
     
     return $this;
 }
+
+    /**
+     * Query scope: Get expired pending bookings (rent_start date has passed)
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where('status', 'pending')
+            ->where('rent_start', '<', Carbon::today());
+    }
+
+    /**
+     * Check if booking is expired (rent_start date has passed and still pending)
+     */
+    public function isExpired()
+    {
+        return $this->status === 'pending' && Carbon::parse($this->rent_start)->lt(Carbon::today());
+    }
+
+    /**
+     * Cancel the booking if it's expired
+     */
+    public function cancelIfExpired()
+    {
+        if ($this->isExpired()) {
+            $this->update(['status' => 'cancelled']);
+            return true;
+        }
+        return false;
+    }
 }

@@ -50,7 +50,7 @@
     </div>
 
     @yield('scripts')
-
+    @stack('modals')
     <script src="{{ asset('javascripts/responsive.js') }}"></script>
 </body>
 </html>
