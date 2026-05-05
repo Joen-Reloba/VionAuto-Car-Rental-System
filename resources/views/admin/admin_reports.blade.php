@@ -62,7 +62,7 @@
                 </svg>
             </div>
             <div class="stat-label">Total revenue</div>
-            <div class="stat-value">${{ number_format($stats['total_revenue'], 2) }}</div>
+            <div class="stat-value">₱{{ number_format($stats['total_revenue'], 2) }}</div>
             <div class="stat-badge up">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7l3-4 3 4"/></svg>
                 {{ $stats['revenue_growth'] }}% from last week

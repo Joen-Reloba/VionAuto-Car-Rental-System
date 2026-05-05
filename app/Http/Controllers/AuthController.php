@@ -11,6 +11,10 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        if (Auth::check()) {
+            return redirect($this->redirectUrlForRole(Auth::user()->role));
+        }
+
         return view('auth.login');
     }
 
@@ -29,12 +33,7 @@ class AuthController extends Controller
             $role = Auth::user()->role;
 
             // Redirect based on role
-            return match($role) {
-                'admin'    => redirect()->route('admin.dashboard'),
-                'staff'    => redirect()->route('staff.vehicles'), // change if staff has its own page
-                'customer' => redirect('/'), // change to customer route
-                default    => redirect('/login'),
-            };
+            return redirect($this->redirectUrlForRole($role));
         }
 
         return back()->withErrors([
@@ -92,5 +91,15 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('login')->with('success', 'Registration successful! Please log in with your credentials.');
+    }
+
+    private function redirectUrlForRole(string $role): string
+    {
+        return match ($role) {
+            'admin' => session('last_admin_url', route('admin.dashboard')),
+            'staff' => session('last_staff_url', route('staff.vehicles')),
+            'customer' => route('landing'),
+            default => route('landing'),
+        };
     }
 }

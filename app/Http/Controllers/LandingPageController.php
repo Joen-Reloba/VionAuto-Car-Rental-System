@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Auth;
 
 class LandingPageController extends Controller
 {
     public function index()
     {
+        if (Auth::check()) {
+            $redirectUrl = $this->redirectUrlForRole(Auth::user()->role);
+
+            if ($redirectUrl) {
+                return redirect($redirectUrl);
+            }
+        }
+
         // Fetch vehicles with their images
         $vehicles = Vehicle::with('images')
             ->where('status', 'available')
@@ -45,8 +54,25 @@ class LandingPageController extends Controller
         ]);
     }
 
+    private function redirectUrlForRole(string $role): ?string
+    {
+        return match ($role) {
+            'admin' => session('last_admin_url', route('admin.dashboard')),
+            'staff' => session('last_staff_url', route('staff.vehicles')),
+            default => null,
+        };
+    }
+
     public function browseAllVehicles()
     {
+        if (Auth::check()) {
+            $redirectUrl = $this->redirectUrlForRole(Auth::user()->role);
+
+            if ($redirectUrl) {
+                return redirect($redirectUrl);
+            }
+        }
+
         // Start with base query
         $query = Vehicle::with('images')
             ->where('status', 'available');
@@ -114,6 +140,14 @@ class LandingPageController extends Controller
 
     public function viewVehicle($vehicleId)
     {
+        if (Auth::check()) {
+            $redirectUrl = $this->redirectUrlForRole(Auth::user()->role);
+
+            if ($redirectUrl) {
+                return redirect($redirectUrl);
+            }
+        }
+
         // Fetch the vehicle with all its images
         $vehicle = Vehicle::with('images')
             ->where('vehicle_ID', $vehicleId)
