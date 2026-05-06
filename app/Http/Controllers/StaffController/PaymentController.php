@@ -8,6 +8,7 @@ use App\Models\BookingNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
 {
@@ -42,7 +43,7 @@ class PaymentController extends Controller
                 'remaining_balance' => $remainingBalance,
                 'payment_type' => $payment->payment_type,
                 'status' => $payment->status,
-                'receipt_image' => $payment->receipt_image ? asset('assets/images/images-receipts/' . $payment->receipt_image) : null,
+                'receipt_image' => $payment->receipt_image ? Storage::disk('public')->url('images-receipts/' . $payment->receipt_image) : null,
                 'payment_date' => $payment->payment_date?->format('M d, Y'),
                 'rent_start' => $payment->booking->rent_start?->format('M d'),
                 'rent_end' => $payment->booking->rent_end?->format('M d'),
@@ -89,7 +90,7 @@ class PaymentController extends Controller
             'remaining_balance' => $remainingBalance,
             'payment_type' => $payment->payment_type,
             'status' => $payment->status,
-            'receipt_image' => $payment->receipt_image ? asset('assets/images/images-receipts/' . $payment->receipt_image) : null,
+            'receipt_image' => $payment->receipt_image ? Storage::disk('public')->url('images-receipts/' . $payment->receipt_image) : null,
             'payment_date' => $payment->payment_date?->format('M d, Y'),
             'rent_start' => $payment->booking->rent_start?->format('M d'),
             'rent_end' => $payment->booking->rent_end?->format('M d'),
