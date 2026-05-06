@@ -4,7 +4,7 @@
     <div class="vehicle-card">
         <div class="vehicle-image-wrapper">
             @if($vehicle['image'])
-                <img src="{{ asset('assets/images/images-vehicles/' . $vehicle['image']) }}" alt="{{ $vehicle['brand'] }} {{ $vehicle['model'] }}" class="vehicle-image">
+                <img src="{{ $vehicle['image'] }}" alt="{{ $vehicle['brand'] }} {{ $vehicle['model'] }}" class="vehicle-image">
             @else
                 <div class="no-image-placeholder">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

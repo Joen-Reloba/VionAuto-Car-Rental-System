@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Bookings</title>
+    @use('Illuminate\Support\Facades\Storage')
     @vite(['resources/css/customer_css/customer_bookings.css', 'resources/css/landing.css'])
 </head>
 <body>
@@ -44,7 +45,7 @@
                             $vehicleImage = $booking->vehicle->images->where('is_primary', true)->first() ?? $booking->vehicle->images->first();
                         @endphp
                         @if($vehicleImage && $vehicleImage->img_path)
-                            <img src="{{ asset('assets/images/images-vehicles/' . $vehicleImage->img_path) }}" alt="{{ $booking->vehicle->brand }}">
+                            <img src="{{ Storage::disk('public')->url('images-vehicles/' . $vehicleImage->img_path) }}" alt="{{ $booking->vehicle->brand }}">
                         @else
                             <div class="image-placeholder">No Image</div>
                         @endif

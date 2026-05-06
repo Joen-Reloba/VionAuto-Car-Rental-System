@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -63,7 +64,7 @@ class BookingController extends Controller
             $vehicleImage = $vehicle->images->where('is_primary', true)->first() ?? $vehicle->images->first();
             $imagePath = null;
             if ($vehicleImage && $vehicleImage->img_path) {
-                $imagePath = asset('assets/images/images-vehicles/' . $vehicleImage->img_path);
+                $imagePath = Storage::disk('public')->url('images-vehicles/' . $vehicleImage->img_path);
             }
             
             return [
@@ -140,7 +141,7 @@ class BookingController extends Controller
         $vehicleImage = $vehicle->images->where('is_primary', true)->first() ?? $vehicle->images->first();
         $imagePath = null;
         if ($vehicleImage && $vehicleImage->img_path) {
-            $imagePath = asset('assets/images/images-vehicles/' . $vehicleImage->img_path);
+            $imagePath = Storage::disk('public')->url('images-vehicles/' . $vehicleImage->img_path);
         }
         
         $bookingData = [

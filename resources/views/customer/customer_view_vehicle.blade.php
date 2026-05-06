@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $vehicle['brand'] }} {{ $vehicle['model'] }} - VionAuto</title>
     @vite(['resources/css/landing.css', 'resources/css/customer_css/view_vehicle.css'])
+    @use('Illuminate\Support\Facades\Storage')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
                         $mainImage = $primaryImage ?? ($vehicle['images'][0] ?? null);
                     @endphp
                     @if($mainImage)
-                        <img src="{{ asset('assets/images/images-vehicles/' . $mainImage['path']) }}" alt="{{ $vehicle['brand'] }} {{ $vehicle['model'] }}" class="main-image" id="mainImage">
+                        <img src="{{ Storage::disk('public')->url('images-vehicles/' . $mainImage['path'])>
                     @else
                         <div class="no-image-placeholder">
                             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -46,7 +47,7 @@
                     <div class="thumbnail-gallery">
                         @foreach($vehicle['images'] as $image)
                             <div class="thumbnail-wrapper">
-                                <img src="{{ asset('assets/images/images-vehicles/' . $image['path']) }}" alt="Thumbnail" class="thumbnail" onclick="changeMainImage(this)">
+                                <img src="{{Storage::disk('public')->url('images-vehicles/' . $image['path'])>
                             </div>
                         @endforeach
                     </div>
