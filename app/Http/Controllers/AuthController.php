@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -64,7 +65,7 @@ class AuthController extends Controller
         if ($request->hasFile('valid_id')) {
             $file = $request->file('valid_id');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/images/valid-ids'), $filename);
+            $file->storeAs('images-valid_id', $filename, 'public');
             $validIdPath = $filename;
         }
 

@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Profile</title>
     @vite(['resources/css/customer_css/customer_profile.css', 'resources/css/landing.css'])
-    
+    @use('Illuminate\Support\Facades\Storage')
 </head>
 <body>
 
@@ -118,9 +118,9 @@
                     {{-- Valid ID — image --}}
                     <p class="id-sublabel">Valid Government ID</p>
                     @if($customer->valid_ID)
-                        <div class="valid-id-wrapper" onclick="openIdViewer('{{ asset('assets/images/images-valid_id/' . $customer->valid_ID) }}')">
+                       <div class="valid-id-wrapper" onclick="openIdViewer('{{ Storage::disk('public')->url('images-valid_id/' . $customer->valid_ID) }}')">
                             <img
-                                src="{{ asset('assets/images/images-valid_id/' . $customer->valid_ID) }}"
+                                src="{{ Storage::disk('public')->url('images-valid_id/' . $customer->valid_ID) }}"
                                 alt="Valid ID"
                                 class="valid-id-thumb"
                             />

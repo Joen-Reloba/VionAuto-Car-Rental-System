@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class CustomerProfileController extends Controller
@@ -79,17 +80,16 @@ class CustomerProfileController extends Controller
         'phone_number' => $request->phone_number,
     ]);
 
-    // Handle valid ID upload
+        // Handle valid ID upload
     $validIdFilename = $customer->valid_ID;
     if ($request->hasFile('valid_ID')) {
         // Delete old file
         if ($customer->valid_ID) {
-            $oldPath = public_path('assets/images/images-valid_id/' . $customer->valid_ID);
-            if (file_exists($oldPath)) unlink($oldPath);
+            Storage::disk('public')->delete('images-valid_id/' . $customer->valid_ID);
         }
         $file = $request->file('valid_ID');
         $validIdFilename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('assets/images/images-valid_id'), $validIdFilename);
+        $file->storeAs('images-valid_id', $validIdFilename, 'public');
     }
 
     // Update customer table
