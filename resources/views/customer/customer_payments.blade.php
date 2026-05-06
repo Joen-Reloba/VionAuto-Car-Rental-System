@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Payments</title>
+    @use('Illuminate\Support\Facades\Storage')
     @vite(['resources/css/customer_css/customer_payments.css', 'resources/css/landing.css'])
 </head>
 <body>
@@ -106,7 +107,7 @@
 
                     <div class="payment-actions">
                         @if($payment->receipt_image)
-                            <a href="{{ asset('assets/images/images-receipts/' . $payment->receipt_image) }}" target="_blank" class="action-btn view-receipt-btn">
+                           <a href="{{ Storage::disk('public')->url('images-receipts/' . $payment->receipt_image) }}" target="_blank" class="action-btn view-receipt-btn">
                                 View Receipt
                             </a>
                         @endif

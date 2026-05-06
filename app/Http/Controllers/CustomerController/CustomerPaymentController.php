@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerPaymentController extends Controller
 {
@@ -116,8 +117,7 @@ class CustomerPaymentController extends Controller
         // Save receipt
         $receiptFile = $request->file('receipt');
         $fileName = time() . '_' . $receiptFile->hashName();
-        $receiptFile->move(public_path('assets/images/images-receipts'), $fileName);
-
+        $receiptFile->storeAs('image-receipts',$fileName, 'public');
         // Create new payment record (don't updateOrCreate — we want separate records)
         $payment = Payment::create([
             'booking_ID'      => $booking->booking_ID,
