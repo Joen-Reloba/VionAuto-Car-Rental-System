@@ -30,7 +30,7 @@
                         $mainImage = $primaryImage ?? ($vehicle['images'][0] ?? null);
                     @endphp
                     @if($mainImage)
-                        <img src="{{ Storage::disk('public')->url('images-vehicles/' . $mainImage['path'])>
+                        <img src="{{ Storage::disk('public')->url('images-vehicles/' . $mainImage['path']) }}" alt="{{ $vehicle['brand'] }} {{ $vehicle['model'] }}" class="main-image" id="mainImage">
                     @else
                         <div class="no-image-placeholder">
                             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
