@@ -41,7 +41,7 @@
             {{-- ── PROFILE HEADER ── --}}
            <div class="profile-header-card">
     <div class="profile-avatar">
-        <img src="{{ asset('assets/icons/customer.png') }}" alt="">
+        <img src="{{ asset('assets/icons/Customer.png') }}" alt="">
     </div>
                 <div class="profile-header-info">
                     <h1 class="profile-name">

@@ -194,7 +194,7 @@ function initViewUser() {
                     const validIdImg = document.getElementById("modalValidId");
                     if (customer.valid_ID) {
                         validIdImg.src =
-                            "/assets/images/valid-ids/" + customer.valid_ID;
+                            "/storage/images-valid_id/" + customer.valid_ID;
                         validIdImg.style.display = "block";
                     } else {
                         validIdImg.src = "";

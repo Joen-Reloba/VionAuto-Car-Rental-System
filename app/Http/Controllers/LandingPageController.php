@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LandingPageController extends Controller
 {
@@ -31,7 +32,9 @@ class LandingPageController extends Controller
                     'daily_rate' => $vehicle->daily_rate,
                     'image' => $vehicle->images()
                         ->orderBy('is_primary', 'desc')
-                        ->first()?->img_path ?? null,
+                        ->first()?->img_path 
+                        ? Storage::disk('public')->url('images-vehicles/' . $vehicle->images()->orderBy('is_primary', 'desc')->first()->img_path)
+                        : null,
                 ];
             });
 
