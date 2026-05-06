@@ -47,7 +47,7 @@
                     <div class="thumbnail-gallery">
                         @foreach($vehicle['images'] as $image)
                             <div class="thumbnail-wrapper">
-                                <img src="{{Storage::disk('public')->url('images-vehicles/' . $image['path'])>
+                               <img src="{{ Storage::disk('public')->url('images-vehicles/' . $image['path']) }}" alt="Thumbnail" class="thumbnail" onclick="changeMainImage(this)">
                             </div>
                         @endforeach
                     </div>
