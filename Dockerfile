@@ -114,7 +114,7 @@ RUN php artisan storage:link || true
 
 # Set permissions
 
-RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/app/public/images-valid_id storage/app/public/images-receipts bootstrap/cache \
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/app/public/images-valid_id storage/app/public/images-receipts storage/app/public/images-vehicles bootstrap/cache \
 && chown -R www-data:www-data storage bootstrap/cache \
 && chmod -R 775 storage bootstrap/cache
 

@@ -7,6 +7,7 @@ use App\Models\VehicleImg;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ManageVehicleController extends Controller
 {
@@ -29,7 +30,7 @@ class ManageVehicleController extends Controller
             if ($vehicleImage && $vehicleImage->img_path) {
                 // Extract just the filename from the path and use .png extension
                 $filename = pathinfo($vehicleImage->img_path, PATHINFO_FILENAME) . '.png';
-                $imagePath = asset('assets/images/images-vehicles/' . $filename);
+                $imagePath = Storage::disk('public')->url('images-vehicles/' . $filename);
             }
             
             return [
@@ -77,7 +78,7 @@ class ManageVehicleController extends Controller
                 
                 foreach ($request->file('images') as $image) {
                     $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('assets/images/images-vehicles'), $filename);
+                    $image->storeAs('images-vehicles', $filename, 'public');
                     
                     VehicleImg::create([
                         'vehicle_id' => $vehicle->vehicle_ID,
@@ -110,7 +111,7 @@ class ManageVehicleController extends Controller
         
         foreach ($images as $image) {
             if ($image->img_path) {
-                $vehicleImages[] = asset('assets/images/images-vehicles/' . $image->img_path);
+                $vehicleImages[] = Storage::disk('public')->url('images-vehicles/' . $image->img_path);
             }
         }
         
@@ -143,10 +144,7 @@ class ManageVehicleController extends Controller
             if ($request->hasFile('images') && !empty($request->file('images'))) {
                 // Delete old image files from disk
                 foreach ($vehicle->images as $oldImage) {
-                    $oldImagePath = public_path('assets/images/images-vehicles/' . $oldImage->img_path);
-                    if (file_exists($oldImagePath)) {
-                        unlink($oldImagePath);
-                    }
+                    Storage::disk('public')->delete('images-vehicles/' . $oldImage->img_path);
                 }
                 
                 // Delete old image records from database
@@ -157,7 +155,7 @@ class ManageVehicleController extends Controller
                 
                 foreach ($request->file('images') as $image) {
                     $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('assets/images/images-vehicles'), $filename);
+                    $image->storeAs('images-vehicles', $filename, 'public');
                     
                     VehicleImg::create([
                         'vehicle_id' => $vehicle->vehicle_ID,
@@ -189,10 +187,7 @@ class ManageVehicleController extends Controller
         try {
             // Delete all image files from disk
             foreach ($vehicle->images as $image) {
-                $imagePath = public_path('assets/images/images-vehicles/' . $image->img_path);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
-                }
+                Storage::disk('public')->delete('images-vehicles/' . $image->img_path);
             }
             
             $vehicle->delete();
