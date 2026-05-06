@@ -117,7 +117,7 @@ class CustomerPaymentController extends Controller
         // Save receipt
         $receiptFile = $request->file('receipt');
         $fileName = time() . '_' . $receiptFile->hashName();
-        $receiptFile->storeAs('image-receipts',$fileName, 'public');
+        $receiptFile->storeAs('images-receipts',$fileName, 'public');
         // Create new payment record (don't updateOrCreate — we want separate records)
         $payment = Payment::create([
             'booking_ID'      => $booking->booking_ID,
